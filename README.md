@@ -56,6 +56,18 @@ Notes:
 - `make test` and `make` will attempt to boot a simulator. If your UDID/destination is different, update it (see below).
 - SPM dependencies cannot be resolved without internet access.
 
+## Getting Instagram Export (ZIP, JSON)
+Steps to obtain your Instagram data export in JSON format:
+1. Open Instagram (mobile app or web) and go to Settings → Privacy and security (web) or Your activity (mobile).
+2. Find “Download your information” (or “Download data”).
+3. Request a download in JSON format and include relevant date range (or “All time”).
+4. When you receive the email from Instagram, download the ZIP to your Mac.
+5. Use the app’s file picker to select the ZIP. The app works fully offline; it does not require login or use any Instagram API.
+
+Placeholders for screenshots:
+- `docs/images/instagram-export-step-1.png`
+- `docs/images/instagram-export-step-2.png`
+
 ## Simulator & UDID
 Key Makefile variables:
 
@@ -92,10 +104,11 @@ Unfollowers/
 ├─ UnfollowersTests/
 │  ├─ UnfollowersTests.swift
 │  ├─ InstagramJSONParserGoldenTests.swift
-│  ├─ Senaryo A.zip
-│  ├─ Senaryo B.zip
-│  ├─ Senaryo C.zip
-│  └─ instagram_export_test_all0_appformat_fixed.zip
+│  └─ Fixtures/
+│     ├─ Senaryo A.zip
+│     ├─ Senaryo B.zip
+│     ├─ Senaryo C.zip
+│     └─ instagram_export_test_all0_appformat_fixed.zip
 ├─ UnfollowersUITests/
 │  ├─ UnfollowersUITests.swift
 │  └─ UnfollowersUITestsLaunchTests.swift
@@ -112,7 +125,7 @@ Unfollowers/
 
 ## Tests
 - Unit and UI tests are executed via the Xcode test plan (`Unfollowers.xctestplan`).
-- Test fixtures (ZIP archives) live under `UnfollowersTests/`.
+- Test fixtures (ZIP archives) live under `UnfollowersTests/Fixtures/`.
 - Run:
   ```bash
   make test
