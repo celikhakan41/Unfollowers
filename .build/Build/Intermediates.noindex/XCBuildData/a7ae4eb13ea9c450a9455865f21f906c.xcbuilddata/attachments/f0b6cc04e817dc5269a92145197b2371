@@ -1,0 +1,28 @@
+{
+  "" : {
+    "diagnostics" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITests-master.dia",
+    "emit-module-dependencies" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITests-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITests-master-emit-module.dia",
+    "swift-dependencies" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITests-master.swiftdeps"
+  },
+  "/Users/celikhakan/Unfollowers/UnfollowersUITests/UnfollowersUITests.swift" : {
+    "const-values" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITests.swiftconstvalues",
+    "dependencies" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITests.d",
+    "diagnostics" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITests.dia",
+    "index-unit-output-path" : "/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITests.o",
+    "llvm-bc" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITests.bc",
+    "object" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITests.o",
+    "swift-dependencies" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITests.swiftdeps",
+    "swiftmodule" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITests~partial.swiftmodule"
+  },
+  "/Users/celikhakan/Unfollowers/UnfollowersUITests/UnfollowersUITestsLaunchTests.swift" : {
+    "const-values" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITestsLaunchTests.swiftconstvalues",
+    "dependencies" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITestsLaunchTests.d",
+    "diagnostics" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITestsLaunchTests.dia",
+    "index-unit-output-path" : "/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITestsLaunchTests.o",
+    "llvm-bc" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITestsLaunchTests.bc",
+    "object" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITestsLaunchTests.o",
+    "swift-dependencies" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITestsLaunchTests.swiftdeps",
+    "swiftmodule" : "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/Unfollowers.build/Debug-iphonesimulator/UnfollowersUITests.build/Objects-normal/arm64/UnfollowersUITestsLaunchTests~partial.swiftmodule"
+  }
+}

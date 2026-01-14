@@ -1,0 +1,18 @@
+"/Users/celikhakan/Unfollowers/.build/SourcePackages/checkouts/ZIPFoundation/Sources/ZIPFoundation/Archive+Progress.swift":
+  swift-dependencies: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+Progress.swiftdeps"
+  diagnostics: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+Progress.dia"
+  const-values: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+Progress.swiftconstvalues"
+  object: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+Progress.o"
+  dependencies: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+Progress.d"
+"/Users/celikhakan/Unfollowers/.build/SourcePackages/checkouts/ZIPFoundation/Sources/ZIPFoundation/Archive+Helpers.swift":
+  diagnostics: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+Helpers.dia"
+  object: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+Helpers.o"
+  dependencies: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+Helpers.d"
+  const-values: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+Helpers.swiftconstvalues"
+  swift-dependencies: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+Helpers.swiftdeps"
+"/Users/celikhakan/Unfollowers/.build/SourcePackages/checkouts/ZIPFoundation/Sources/ZIPFoundation/Archive+MemoryFile.swift":
+  object: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+MemoryFile.o"
+  const-values: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+MemoryFile.swiftconstvalues"
+  swift-dependencies: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+MemoryFile.swiftdeps"
+  diagnostics: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+MemoryFile.dia"
+  dependencies: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+MemoryFile.d"

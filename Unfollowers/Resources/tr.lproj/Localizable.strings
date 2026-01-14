@@ -1,0 +1,67 @@
+"app.title" = "Unfollowers";
+
+"home.safe_title" = "Güvenli analiz ✅";
+"home.safe_subtitle" = "Şifre yok, giriş yok. Instagram’dan indirdiğin ZIP’i seç; analiz cihazında yapılır.";
+"home.pick_zip" = "Instagram ZIP’i seç";
+"home.analyzing" = "Analiz ediliyor…";
+"home.warning.active_estimate" = "Active, Instagram export timestamp’lerine dayalı bir tahmindir.";
+
+"counts.not_following_back" = "Seni geri takip etmeyenler: %d";
+"counts.followers_following" = "Takipçiler: %d • Takip edilen: %d";
+"used_files.title" = "Kullanılan dosyalar:";
+
+"mode.all" = "Tümü (tarihsel)";
+"mode.active365" = "Aktif Takip (son 365 gün)";
+"mode.active180" = "Aktif Takip (son 180 gün)";
+
+"help.title" = "Yardım";
+"help.how_title" = "Instagram’dan ZIP nasıl indiririm?";
+"help.step1" = "1) Instagram’ı aç → Profil";
+"help.step2" = "2) Menü (≡) → Ayarlar ve gizlilik";
+"help.step3" = "3) Hesaplar Merkezi (Accounts Center)";
+"help.step4" = "4) Bilgilerin ve izinlerin → Bilgilerini indir";
+"help.step5" = "5) ‘Bazı bilgiler’ → ‘Takipçiler ve takip edilenler’ seç";
+"help.step6" = "6) Format: JSON → İndir";
+"help.step7" = "7) ZIP hazır olunca uygulamada ‘Instagram ZIP’i seç’ de";
+"help.step8" = "8) Uygulama ZIP içindeki followers/following JSON’larını bulur ve analiz eder";
+"help.security_title" = "Güvenlik";
+"help.security_p1" = "• Bu uygulama şifre istemez.";
+"help.security_p2" = "• Analiz cihazında yapılır; dosyalar sunucuya gönderilmez.";
+"common.close" = "Kapat";
+
+"status.selected_none" = "Seçilmedi";
+
+"info.active.title" = "Active Following nedir?";
+"info.active.p1" = "Instagram, veri indirme dosyasında takip ettiğiniz hesaplar için ‘timestamp’ bilgisi sağlar.";
+"info.active.p2" = "“Active Following” listeleri, bu timestamp’lere göre son 365/180 gün içindeki hesapları gösterir.";
+"info.active.p3" = "⚠️ Bu bir tahmindir. Export dosyaları anlık durumu değil, tarihsel kayıtları yansıtabilir.";
+
+"share.header.all" = "Tümü (tarihsel)";
+"share.header.active365" = "Aktif Takip (son 365 gün)";
+"share.header.active180" = "Aktif Takip (son 180 gün)";
+"share.generated_from_instagram" = "Instagram verisinden oluşturuldu";
+"share.main_title" = "Unfollowers — ZIP analizi (%d)";
+
+"error.no_results" = "Bu ZIP’ten sonuç üretilemedi (0 kişi). Dosyanın doğru export olduğundan emin ol.";
+
+"home.placeholder.no_zip_card" = "Başlamak için yukarıdaki düğmeyle Instagram ZIP’ini seç. Verilerin cihazdan çıkmaz.";
+"home.placeholder.after_zip_hint" = "ZIP seçildi. Analiz bitince sonuçlar görünecek. Hiçbir şey çıkmazsa Yardım’a göz at.";
+
+"home.status.analysis_complete" = "Analiz tamamlandı ✅";
+"home.summary.not_following_back_label" = "Geri takip etmeyenler";
+"home.summary.followers_label" = "Takipçiler: %d";
+"home.summary.following_label" = "Takip edilen: %d";
+"home.empty.no_unfollowers_positive" = "Harika! Takip ettiklerinin hepsi seni geri takip ediyor 🎉";
+"home.mode.label" = "Mod";
+"mode.short.all" = "Tümü";
+"mode.short.365d" = "365g";
+"mode.short.180d" = "180g";
+"language.title" = "Dil";
+"language.english" = "İngilizce";
+"language.turkish" = "Türkçe";
+
+"home.search.no_matches" = "Aramana uygun sonuç bulunamadı.";
+"home.status.last_analyzed" = "Son analiz: %@";
+
+"home.mode.help_hint" = "İpucu: Hazır olduğunda bir mod seçebilirsin. Sonradan değiştirebilirsin.";
+"home.results.empty_after_analysis" = "Bu mod için kullanıcı bulunmadı.";

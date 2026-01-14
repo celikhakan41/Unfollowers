@@ -1,0 +1,18 @@
+"/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/DerivedSources/resource_bundle_accessor.swift":
+  object: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/resource_bundle_accessor.o"
+  swift-dependencies: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/resource_bundle_accessor.swiftdeps"
+  dependencies: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/resource_bundle_accessor.d"
+  const-values: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/resource_bundle_accessor.swiftconstvalues"
+  diagnostics: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/resource_bundle_accessor.dia"
+"/Users/celikhakan/Unfollowers/.build/SourcePackages/checkouts/ZIPFoundation/Sources/ZIPFoundation/Archive+BackingConfiguration.swift":
+  dependencies: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+BackingConfiguration.d"
+  swift-dependencies: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+BackingConfiguration.swiftdeps"
+  diagnostics: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+BackingConfiguration.dia"
+  object: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+BackingConfiguration.o"
+  const-values: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+BackingConfiguration.swiftconstvalues"
+"/Users/celikhakan/Unfollowers/.build/SourcePackages/checkouts/ZIPFoundation/Sources/ZIPFoundation/Archive+Deprecated.swift":
+  swift-dependencies: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+Deprecated.swiftdeps"
+  const-values: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+Deprecated.swiftconstvalues"
+  object: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+Deprecated.o"
+  dependencies: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+Deprecated.d"
+  diagnostics: "/Users/celikhakan/Unfollowers/.build/Build/Intermediates.noindex/ZIPFoundation.build/Debug-iphonesimulator/ZIPFoundation.build/Objects-normal/arm64/Archive+Deprecated.dia"

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>FormatVersion</key>
+	<integer>1</integer>
+	<key>Store</key>
+	<dict>
+		<key>UnfollowersTests</key>
+		<dict>
+			<key>UnfollowersTests</key>
+			<dict>
+				<key>example</key>
+				<dict>
+					<key>mrnet</key>
+					<real>0.0</real>
+				</dict>
+				<key>recencyBoundaries180</key>
+				<dict>
+					<key>mrnet</key>
+					<real>0.0</real>
+				</dict>
+				<key>recencyBoundaries365</key>
+				<dict>
+					<key>mrnet</key>
+					<real>0.0</real>
+				</dict>
+				<key>sortingStabilityCaseInsensitive</key>
+				<dict>
+					<key>mrnet</key>
+					<real>0.0</real>
+				</dict>
+			</dict>
+		</dict>
+		<key>UnfollowersUITests</key>
+		<dict>
+			<key>UnfollowersUITests</key>
+			<dict>
+				<key>testExample</key>
+				<dict>
+					<key>mrnet</key>
+					<real>2.5878260135650635</real>
+				</dict>
+				<key>testLaunchPerformance</key>
+				<dict>
+					<key>mrnet</key>
+					<real>21.616007089614868</real>
+				</dict>
+			</dict>
+			<key>UnfollowersUITestsLaunchTests</key>
+			<dict>
+				<key>testLaunch</key>
+				<dict>
+					<key>mrnet</key>
+					<real>3.5866740942001343</real>
+				</dict>
+			</dict>
+		</dict>
+	</dict>
+</dict>
+</plist>

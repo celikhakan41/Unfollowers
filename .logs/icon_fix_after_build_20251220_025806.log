@@ -1,0 +1,47 @@
+📦 Build: Unfollowers (Debug)
+
+----- xcbeautify -----
+Version: 3.1.2
+----------------------
+
+[36;1mResolving Package Graph[0m
+[32;1mResolved source packages[0m
+[36;1mZIPFoundation[0m - [1mhttps://github.com/weichsel/ZIPFoundation[0m @ [32m0.9.20[0m
+[36;1mnote: [0mBuilding targets in dependency order
+[36;1mnote: [0mTarget dependency graph (4 targets)
+[[36mZIPFoundation_ZIPFoundation[0m] [1mProcessing[0m empty-ZIPFoundation_ZIPFoundation.plist
+[[36mUnfollowers[0m] [1mWrite Auxiliary File[0m Unfollowers.LinkFileList
+[[36mUnfollowers[0m] [1mWrite Auxiliary File[0m Unfollowers.SwiftFileList
+[[36mUnfollowers[0m] [1mWrite Auxiliary File[0m Unfollowers.SwiftConstValuesFileList
+[[36mUnfollowers[0m] [1mWrite Auxiliary File[0m Unfollowers.SwiftFileList
+[[36mUnfollowers[0m] [1mWrite Auxiliary File[0m Unfollowers.SwiftConstValuesFileList
+[[36mUnfollowers[0m] [1mWrite Auxiliary File[0m Unfollowers.LinkFileList
+[[36mUnfollowers[0m] [1mGenerate Asset Symbols[0m Assets.xcassets
+[[36mUnfollowers[0m] [1mCompiling[0m GeneratedAssetSymbols.swift
+[[36mUnfollowers[0m] [1mCompiling[0m GeneratedAssetSymbols.swift
+[[36mUnfollowers[0m] [1mCopy[0m x86_64-apple-ios-simulator.abi.json -> Unfollowers.abi.json
+[[36mUnfollowers[0m] [1mCopy[0m x86_64-apple-ios-simulator.swiftmodule -> Unfollowers.swiftmodule
+[[36mUnfollowers[0m] [1mCopy[0m x86_64-apple-ios-simulator.swiftsourceinfo -> Unfollowers.swiftsourceinfo
+[[36mUnfollowers[0m] [1mLinking[0m Unfollowers.debug.dylib
+[[36mUnfollowers[0m] [1mCopy[0m arm64-apple-ios-simulator.swiftmodule -> Unfollowers.swiftmodule
+[[36mUnfollowers[0m] [1mCopy[0m arm64-apple-ios-simulator.swiftsourceinfo -> Unfollowers.swiftsourceinfo
+[[36mUnfollowers[0m] [1mCopy[0m arm64-apple-ios-simulator.abi.json -> Unfollowers.abi.json
+[[36mUnfollowers[0m] [1mLinking[0m Unfollowers.debug.dylib
+[36;1mnote: [0mUsing stub executor library with Swift entry point. (in target 'Unfollowers' from project 'Unfollowers')
+[36;1mnote: [0mUsing stub executor library with Swift entry point. (in target 'Unfollowers' from project 'Unfollowers')
+[[36mUnfollowers[0m] [1mCreate Universal Binary[0m Unfollowers.debug.dylib
+[[36mUnfollowers[0m] [1mLinking[0m Unfollowers
+[[36mUnfollowers[0m] [1mLinking[0m Unfollowers
+[[36mUnfollowers[0m] [1mCreate Universal Binary[0m Unfollowers
+[36;1mnote: [0mEmplaced /Users/celikhakan/Unfollowers/.build/Build/Products/Debug-iphonesimulator/Unfollowers.app/Assets.car (in target 'Unfollowers' from project 'Unfollowers')
+[36;1mnote: [0mEmplaced /Users/celikhakan/Unfollowers/.build/Build/Products/Debug-iphonesimulator/Unfollowers.app/AppIcon60x60@2x.png (in target 'Unfollowers' from project 'Unfollowers')
+[36;1mnote: [0mEmplaced /Users/celikhakan/Unfollowers/.build/Build/Products/Debug-iphonesimulator/Unfollowers.app/AppIcon76x76@2x~ipad.png (in target 'Unfollowers' from project 'Unfollowers')
+[[36mUnfollowers[0m] [1mProcessing[0m empty-Unfollowers.plist
+[[36mUnfollowers[0m] [1mExtract App Intents Metadata[0m
+[1mSigning[0m Unfollowers.debug.dylib (in target 'Unfollowers' from project 'Unfollowers')
+[1mSigning[0m __preview.dylib (in target 'Unfollowers' from project 'Unfollowers')
+[1mSigning[0m Unfollowers.app (in target 'Unfollowers' from project 'Unfollowers')
+[[36mUnfollowers[0m] [1mValidate[0m Unfollowers.app
+[32;1mBuild Succeeded[0m
+🧹 Pruning old logs:
+.logs/ux_warning_run_20251220_015849.log

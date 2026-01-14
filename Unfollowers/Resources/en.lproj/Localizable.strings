@@ -1,0 +1,67 @@
+"app.title" = "Unfollowers";
+
+"home.safe_title" = "Safe analysis ✅";
+"home.safe_subtitle" = "No password, no login. Pick your Instagram ZIP; analyze locally.";
+"home.pick_zip" = "Pick Instagram ZIP";
+"home.analyzing" = "Analyzing…";
+"home.warning.active_estimate" = "Active is an estimate based on Instagram export timestamps.";
+
+"counts.not_following_back" = "Not following back: %d";
+"counts.followers_following" = "Followers: %d • Following: %d";
+"used_files.title" = "Used files:";
+
+"mode.all" = "All Following (historical)";
+"mode.active365" = "Active Following (last 365d)";
+"mode.active180" = "Active Following (last 180d)";
+
+"help.title" = "Help";
+"help.how_title" = "How do I download ZIP from Instagram?";
+"help.step1" = "1) Open Instagram → Profile";
+"help.step2" = "2) Menu (≡) → Settings and privacy";
+"help.step3" = "3) Accounts Center";
+"help.step4" = "4) Your information and permissions → Download your information";
+"help.step5" = "5) ‘Some information’ → ‘Followers and following’";
+"help.step6" = "6) Format: JSON → Download";
+"help.step7" = "7) When ZIP is ready, tap ‘Pick Instagram ZIP’ in this app";
+"help.step8" = "8) The app finds followers/following JSONs in the ZIP and analyzes them";
+"help.security_title" = "Security";
+"help.security_p1" = "• This app does not ask for your password.";
+"help.security_p2" = "• Analysis is done on device; files are not uploaded.";
+"common.close" = "Close";
+
+"status.selected_none" = "Not selected";
+
+"info.active.title" = "What is Active Following?";
+"info.active.p1" = "Instagram provides a ‘timestamp’ for accounts you follow in the export file.";
+"info.active.p2" = "“Active Following” lists use these timestamps to show accounts within the last 365 or 180 days.";
+"info.active.p3" = "⚠️ This is an estimate. Instagram exports may reflect historical state, not live status.";
+
+"share.header.all" = "All Following (historical)";
+"share.header.active365" = "Active Following (last 365 days)";
+"share.header.active180" = "Active Following (last 180 days)";
+"share.generated_from_instagram" = "Generated from Instagram export";
+"share.main_title" = "Unfollowers — ZIP analysis (%d)";
+
+"error.no_results" = "No results from this ZIP (0 users). Make sure your export is correct.";
+
+"home.placeholder.no_zip_card" = "Pick your Instagram ZIP with the button above to start. Your data never leaves the device.";
+"home.placeholder.after_zip_hint" = "ZIP selected. Results appear after analysis. If nothing shows, open Help for steps.";
+
+"home.status.analysis_complete" = "Analysis complete ✅";
+"home.summary.not_following_back_label" = "Not following back";
+"home.summary.followers_label" = "Followers: %d";
+"home.summary.following_label" = "Following: %d";
+"home.empty.no_unfollowers_positive" = "Great! Everyone you follow follows you back 🎉";
+"home.mode.label" = "Mode";
+"mode.short.all" = "All";
+"mode.short.365d" = "365d";
+"mode.short.180d" = "180d";
+"language.title" = "Language";
+"language.english" = "English";
+"language.turkish" = "Turkish";
+
+"home.search.no_matches" = "No matches for your search.";
+"home.status.last_analyzed" = "Last analyzed: %@";
+
+"home.mode.help_hint" = "Tip: Choose a mode when you're ready. You can change it later.";
+"home.results.empty_after_analysis" = "No users found for this mode.";

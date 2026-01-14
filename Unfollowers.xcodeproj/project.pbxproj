@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F5820B982EF59C8D0080EBD1 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = F5820B972EF59C8D0080EBD1 /* ZIPFoundation */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		F5820B702EF580590080EBD1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		F5820B622EF580570080EBD1 /* Unfollowers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Unfollowers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5820B6F2EF580590080EBD1 /* UnfollowersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnfollowersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5820B792EF580590080EBD1 /* UnfollowersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnfollowersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5866C5E2F17AEFB002D0FF2 /* Unfollowers.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Unfollowers.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5820B982EF59C8D0080EBD1 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,9 +81,11 @@
 		F5820B592EF580570080EBD1 = {
 			isa = PBXGroup;
 			children = (
+				F5866C5E2F17AEFB002D0FF2 /* Unfollowers.xctestplan */,
 				F5820B642EF580570080EBD1 /* Unfollowers */,
 				F5820B722EF580590080EBD1 /* UnfollowersTests */,
 				F5820B7C2EF580590080EBD1 /* UnfollowersUITests */,
+				F5820B962EF59C8D0080EBD1 /* Frameworks */,
 				F5820B632EF580570080EBD1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +98,13 @@
 				F5820B792EF580590080EBD1 /* UnfollowersUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F5820B962EF59C8D0080EBD1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +127,7 @@
 			);
 			name = Unfollowers;
 			packageProductDependencies = (
+				F5820B972EF59C8D0080EBD1 /* ZIPFoundation */,
 			);
 			productName = Unfollowers;
 			productReference = F5820B622EF580570080EBD1 /* Unfollowers.app */;
@@ -192,9 +208,13 @@
 			knownRegions = (
 				en,
 				Base,
+				tr,
 			);
 			mainGroup = F5820B592EF580570080EBD1;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F5820B952EF59A2A0080EBD1 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F5820B632EF580570080EBD1 /* Products */;
 			projectDirPath = "";
@@ -410,7 +430,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hakancelik.Unfollowers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -437,7 +457,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hakancelik.Unfollowers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -454,7 +474,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hakancelik.UnfollowersTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Unfollowers.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Unfollowers";
 			};
@@ -472,7 +492,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hakancelik.UnfollowersTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Unfollowers.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Unfollowers";
 			};
@@ -488,7 +508,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hakancelik.UnfollowersUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Unfollowers;
 			};
@@ -550,6 +570,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F5820B952EF59A2A0080EBD1 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZIPFoundation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.20;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F5820B972EF59C8D0080EBD1 /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F5820B952EF59A2A0080EBD1 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F5820B5A2EF580570080EBD1 /* Project object */;
 }
