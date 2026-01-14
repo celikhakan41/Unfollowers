@@ -1,3 +1,5 @@
+[![CI](https://github.com/celikhakan41/Unfollowers/actions/workflows/ci.yml/badge.svg)](https://github.com/celikhakan41/Unfollowers/actions/workflows/ci.yml)
+
 # Unfollowers
 
 An example iOS app built with SwiftUI, focused on analyzing Instagram export data to identify accounts that unfollowed you.
