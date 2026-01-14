@@ -67,6 +67,13 @@ struct InstagramJSONParserGoldenTests {
         if let repoRoot = inferRepoRoot() {
             let candidate = repoRoot.appendingPathComponent(fileName)
             if FileManager.default.fileExists(atPath: candidate.path) { return candidate }
+
+            // Try new fixtures folder under tests
+            let fixtures = repoRoot
+                .appendingPathComponent("UnfollowersTests")
+                .appendingPathComponent("Fixtures")
+                .appendingPathComponent(fileName)
+            if FileManager.default.fileExists(atPath: fixtures.path) { return fixtures }
         }
 
         // Env override: UNFOLLOWERS_FIXTURE_DIR
