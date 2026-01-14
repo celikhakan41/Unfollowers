@@ -16,7 +16,7 @@ jobs:
 
       # Select a recent, stable Xcode without hardcoding a path
       - name: Select Xcode
-        uses: apple-actions/setup-xcode@v1
+        uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
 
