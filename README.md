@@ -64,9 +64,7 @@ Steps to obtain your Instagram data export in JSON format:
 4. When you receive the email from Instagram, download the ZIP to your Mac.
 5. Use the app’s file picker to select the ZIP. The app works fully offline; it does not require login or use any Instagram API.
 
-Placeholders for screenshots:
-- `docs/images/instagram-export-step-1.png`
-- `docs/images/instagram-export-step-2.png`
+Optional: Add screenshots under `docs/images/` (see `docs/images/README.md`).
 
 ## Simulator & UDID
 Key Makefile variables:
