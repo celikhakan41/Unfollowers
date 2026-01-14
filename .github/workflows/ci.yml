@@ -20,12 +20,32 @@ jobs:
         with:
           xcode-version: latest-stable
 
+      # Capture Xcode version for cache keying
+      - name: Detect Xcode version
+        id: xcode
+        run: |
+          set -euo pipefail
+          ver=$(xcodebuild -version | sed -n 's/^Xcode //p' | head -n1)
+          echo "version=${ver}" >> "$GITHUB_OUTPUT"
+
       # Helpful for diagnostics
       - name: Show Xcode and SDKs
         run: |
           set -euo pipefail
           xcodebuild -version
           xcodebuild -showsdks || true
+
+      # Cache Swift Package Manager artifacts to speed up builds
+      - name: Cache SwiftPM
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.swiftpm
+            ~/Library/Caches/org.swift.swiftpm
+            .build/SourcePackages
+          key: ${{ runner.os }}-xcode-${{ steps.xcode.outputs.version }}-spm-${{ hashFiles('**/Package.resolved', '**/project.pbxproj') }}
+          restore-keys: |
+            ${{ runner.os }}-xcode-${{ steps.xcode.outputs.version }}-spm-
 
       # Ensure xcbeautify is available for Makefile piping
       - name: Install xcbeautify
