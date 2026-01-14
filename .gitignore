@@ -1,0 +1,65 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode
+DerivedData/
+build/
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscmblueprint
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xctestplan~
+timeline.xctimeline
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+Package.pins
+# Keep Package.resolved (SPM lockfile) when present
+!**/Package.resolved
+
+# CocoaPods
+Pods/
+.cocoapods/
+
+# Carthage
+Carthage/Build/
+Carthage/Checkouts/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/test_output/
+fastlane/screenshots/**/*.png
+
+# Archives, symbols, bundles
+*.ipa
+*.dSYM
+*.dSYM.zip
+*.xcarchive
+*.xcresult
+
+# Logs and temp
+.tmp/
+.cache/
+.home/
+.logs/
+*.log
+*.exit
+
+# Editors/IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*.orig
+
+# Simulator/device noise (if created at repo root by mistake)
+*.simruntime
+*.simdevice
