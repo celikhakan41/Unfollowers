@@ -33,20 +33,25 @@ jobs:
           set -euo pipefail
           brew install xcbeautify
 
-      # Find and boot an available iPhone simulator, expose UDID for Makefile
+      # Install jq for robust JSON parsing of simctl output
+      - name: Install jq
+        run: |
+          set -euo pipefail
+          brew install jq
+
+      # Find and boot an available iPhone simulator via JSON, expose UDID
       - name: Boot iOS Simulator
         run: |
           set -euo pipefail
-          echo "Available devices:" && xcrun simctl list devices available
-          UDID=$(xcrun simctl list devices available | awk -F '[()]' '/iPhone 16 Pro/{print $2; exit}')
+          echo "Available devices (JSON):"
+          xcrun simctl list devices available -j | jq '.'
+          UDID=$(xcrun simctl list devices available -j \
+            | jq -r '[.devices[] | .[]
+                      | select((.isAvailable == true) or (.availability == "(available)"))
+                      | select(.name | startswith("iPhone"))][0].udid // empty')
           if [ -z "${UDID}" ]; then
-            UDID=$(xcrun simctl list devices available | awk -F '[()]' '/iPhone 16[[:space:]]/{print $2; exit}')
-          fi
-          if [ -z "${UDID}" ]; then
-            UDID=$(xcrun simctl list devices available | awk -F '[()]' '/iPhone [0-9]/{print $2; exit}')
-          fi
-          if [ -z "${UDID}" ]; then
-            echo "No available iPhone simulator found." >&2
+            echo "No available iPhone simulator found in JSON output." >&2
+            xcrun simctl list devices available
             exit 1
           fi
           echo "Using simulator UDID: ${UDID}"
@@ -64,4 +69,4 @@ jobs:
       - name: Test
         run: |
           set -euo pipefail
-          make test
+          make test SIM_UDID="${SIM_UDID}"
