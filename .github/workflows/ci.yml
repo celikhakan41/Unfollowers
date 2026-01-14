@@ -43,7 +43,7 @@ jobs:
             ~/.swiftpm
             ~/Library/Caches/org.swift.swiftpm
             .build/SourcePackages
-          key: ${{ runner.os }}-xcode-${{ steps.xcode.outputs.version }}-spm-${{ hashFiles('**/Package.resolved', '**/project.pbxproj') }}
+          key: ${{ runner.os }}-xcode-${{ steps.xcode.outputs.version }}-spm-${{ hashFiles('**/Package.resolved', '**/Package.swift', '**/*.xcodeproj/project.pbxproj') }}
           restore-keys: |
             ${{ runner.os }}-xcode-${{ steps.xcode.outputs.version }}-spm-
 
@@ -53,11 +53,11 @@ jobs:
           set -euo pipefail
           brew install xcbeautify
 
-      # Install jq for robust JSON parsing of simctl output
-      - name: Install jq
+      # Ensure jq for robust JSON parsing of simctl output
+      - name: Ensure jq
         run: |
           set -euo pipefail
-          brew install jq
+          command -v jq >/dev/null 2>&1 || brew install jq
 
       # Find and boot an available iPhone simulator via JSON, expose UDID
       - name: Boot iOS Simulator
