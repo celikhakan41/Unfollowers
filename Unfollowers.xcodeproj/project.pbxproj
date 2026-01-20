@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F5820B982EF59C8D0080EBD1 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = F5820B972EF59C8D0080EBD1 /* ZIPFoundation */; };
+		F5A1B0013000000000000001 /* ZIPFoundation in Frameworks (Tests) */ = {isa = PBXBuildFile; productRef = F5A1B0003000000000000001 /* ZIPFoundation */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5A1B0013000000000000001 /* ZIPFoundation in Frameworks (Tests) */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +153,7 @@
 			);
 			name = UnfollowersTests;
 			packageProductDependencies = (
+				F5A1B0003000000000000001 /* ZIPFoundation */,
 			);
 			productName = UnfollowersTests;
 			productReference = F5820B6F2EF580590080EBD1 /* UnfollowersTests.xctest */;
@@ -584,6 +587,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		F5820B972EF59C8D0080EBD1 /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F5820B952EF59A2A0080EBD1 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
+		};
+		F5A1B0003000000000000001 /* ZIPFoundation */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F5820B952EF59A2A0080EBD1 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
 			productName = ZIPFoundation;

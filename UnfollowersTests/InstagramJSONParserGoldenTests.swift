@@ -20,6 +20,12 @@ struct InstagramJSONParserGoldenTests {
         return comps.date! // safe for given constants
     }
 
+    // Each fixture represents a small, realistic export:
+    // - Senaryo A: Followers = {alice,bob}; Following = {alice,bob}; unfollowers = {}
+    // - Senaryo B: Followers = {alice}; Following = {alice, oldunf}; unfollowers = {oldunf}
+    // - Senaryo C: Followers/Following via hrefs and mixed formats; unfollowers = {}
+    // - instagram_export_test_all0_appformat_fixed.zip: Realistic folder paths, all zero
+
     @Test
     func goldenCounts() throws {
         // Expected counts per fixture
@@ -48,6 +54,36 @@ struct InstagramJSONParserGoldenTests {
             #expect(unfollowersAll.count == expAll, "\(file) unfAll mismatch: got \(unfollowersAll.count), expected \(expAll)")
             #expect(unf365.count == exp365, "\(file) unf365 mismatch: got \(unf365.count), expected \(exp365)")
             #expect(unf180.count == exp180, "\(file) unf180 mismatch: got \(unf180.count), expected \(exp180)")
+        }
+    }
+
+    @Test
+    func goldenSampleUsernames() throws {
+        // Senaryo B: unfollowers must contain "oldunf"; followers must contain "alice"
+        if let zip = findFixture(named: "Senaryo B.zip") {
+            let (followers, following, _, _) = try InstagramJSONParser.extractFromInstagramZip(zip)
+            let unf = following.subtracting(followers)
+            #expect(followers.contains("alice"))
+            #expect(following.contains("oldunf"))
+            #expect(unf.contains("oldunf"))
+        } else {
+            Issue.record("Missing fixture: Senaryo B.zip")
+        }
+
+        // Senaryo A: both sets contain alice and bob; unfollowers empty
+        if let zip = findFixture(named: "Senaryo A.zip") {
+            let (followers, following, _, _) = try InstagramJSONParser.extractFromInstagramZip(zip)
+            let unf = following.subtracting(followers)
+            #expect(followers.isSuperset(of: ["alice", "bob"]))
+            #expect(following.isSuperset(of: ["alice", "bob"]))
+            #expect(unf.isEmpty)
+        }
+
+        // Senaryo C: href + plain username parsing
+        if let zip = findFixture(named: "Senaryo C.zip") {
+            let (followers, following, _, _) = try InstagramJSONParser.extractFromInstagramZip(zip)
+            #expect(followers.isSuperset(of: ["alice", "bob"]))
+            #expect(following.isSuperset(of: ["alice", "bob"]))
         }
     }
 

@@ -102,11 +102,14 @@ Unfollowers/
 ├─ UnfollowersTests/
 │  ├─ UnfollowersTests.swift
 │  ├─ InstagramJSONParserGoldenTests.swift
+│  ├─ InstagramJSONParserRobustnessTests.swift
+│  ├─ InstagramJSONParserPerformanceTests.swift
 │  └─ Fixtures/
 │     ├─ Senaryo A.zip
 │     ├─ Senaryo B.zip
 │     ├─ Senaryo C.zip
 │     └─ instagram_export_test_all0_appformat_fixed.zip
+│     └─ Invalid.zip
 ├─ UnfollowersUITests/
 │  ├─ UnfollowersUITests.swift
 │  └─ UnfollowersUITestsLaunchTests.swift
@@ -124,6 +127,9 @@ Unfollowers/
 ## Tests
 - Unit and UI tests are executed via the Xcode test plan (`Unfollowers.xctestplan`).
 - Test fixtures (ZIP archives) live under `UnfollowersTests/Fixtures/`.
+- Added robustness tests and fixtures:
+  - `Invalid.zip` (plain text renamed to `.zip`) validates failure on non-ZIP input.
+  - Additional ZIP variants for missing files are generated in-test using ZIPFoundation to keep fixtures tiny and deterministic.
 - Run:
   ```bash
   make test
