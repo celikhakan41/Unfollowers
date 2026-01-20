@@ -86,13 +86,21 @@ struct ContentView: View {
                 Button {
                     showPicker = true
                 } label: {
-                    HStack {
-                        Text("home.pick_zip")
-                        Spacer()
-                        StatusPill(filename: zipURL?.lastPathComponent)
-                    }
+                    Text("home.pick_zip")
+                        .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
+
+                if let name = zipURL?.lastPathComponent {
+                    HStack {
+                        Text(String(format: NSLocalizedString("home.selected_zip", comment: ""), name))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                            .truncationMode(.middle)
+                        Spacer(minLength: 0)
+                    }
+                }
 
                 // Subtle placeholder before any selection
                 if zipURL == nil {
@@ -236,7 +244,7 @@ struct ContentView: View {
                     List(displayedList, id: \.self) { username in
                         ResultRow(username: username, onTap: { openProfile(username: username) })
                     }
-                    .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+                    .searchableIf(hasAnalyzed && !displayedList.isEmpty, text: $searchText)
                 } else {
                     if zipURL != nil && !isAnalyzing && errorMessage == nil && hasAnalyzed == false {
                         MessageCard(textKey: LocalizedStringKey("home.placeholder.after_zip_hint"))
@@ -255,6 +263,7 @@ struct ContentView: View {
                     Image(systemName: "square.and.arrow.up")
                 }.disabled(currentList.isEmpty)
             )
+            // Search appears only when the List is shown (after analysis)
         }
         .sheet(isPresented: $showPicker) {
             DocumentPicker { url in
@@ -272,6 +281,8 @@ struct ContentView: View {
         .sheet(isPresented: $showActiveInfo) {
             ActiveFollowingInfoView()
         }
+        // Global searchable: disabled until results/analysis available
+        // Search bar appears only once results exist (attached to the List above)
     }
 
     private var shareText: String {
@@ -536,14 +547,9 @@ private struct SummaryCard: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
-            HStack(spacing: 12) {
-                Text(String(format: NSLocalizedString("home.summary.followers_label", comment: ""), followersCount))
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                Text(String(format: NSLocalizedString("home.summary.following_label", comment: ""), followingCount))
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            }
+            Text(String(format: NSLocalizedString("counts.followers_following", comment: ""), followersCount, followingCount))
+                .font(.footnote)
+                .foregroundStyle(.secondary)
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -640,6 +646,19 @@ private struct ErrorBox: View {
 
 #Preview {
     ContentView()
+}
+
+// MARK: - Conditional modifiers
+
+fileprivate extension View {
+    @ViewBuilder
+    func searchableIf(_ condition: Bool, text: Binding<String>) -> some View {
+        if condition {
+            self.searchable(text: text, placement: .navigationBarDrawer(displayMode: .always))
+        } else {
+            self
+        }
+    }
 }
 
 // MARK: - Active Following Info
