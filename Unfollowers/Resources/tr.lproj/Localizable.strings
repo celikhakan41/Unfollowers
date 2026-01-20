@@ -30,6 +30,7 @@
 "common.close" = "Kapat";
 
 "status.selected_none" = "Seçilmedi";
+"home.selected_zip" = "Seçilen: %@";
 
 "info.active.title" = "Active Following nedir?";
 "info.active.p1" = "Instagram, veri indirme dosyasında takip ettiğiniz hesaplar için ‘timestamp’ bilgisi sağlar.";

@@ -2,6 +2,7 @@ import SwiftUI
 #if canImport(UIKit)
 import UIKit
 #endif
+import ZIPFoundation
 
 struct ContentView: View {
     @Environment(\.openURL) private var openURL
@@ -29,6 +30,9 @@ struct ContentView: View {
     @State private var showActiveInfo = false
     @State private var searchText: String = ""
     @State private var lastAnalyzedAt: Date?
+    #if DEBUG
+    @State private var didAutoLoadUITestFixture = false
+    #endif
 
     private enum FollowingMode: Hashable, CaseIterable {
         case active180
@@ -90,6 +94,7 @@ struct ContentView: View {
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
+                .accessibilityIdentifier("pickZipButton")
 
                 if let name = zipURL?.lastPathComponent {
                     HStack {
@@ -98,6 +103,7 @@ struct ContentView: View {
                             .foregroundStyle(.secondary)
                             .lineLimit(1)
                             .truncationMode(.middle)
+                            .accessibilityIdentifier("selectedZipLabel")
                         Spacer(minLength: 0)
                     }
                 }
@@ -193,6 +199,7 @@ struct ContentView: View {
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .accessibilityIdentifier("analysisCompleteLabel")
 
                     if mode == .all {
                         Text("home.empty.no_unfollowers_positive")
@@ -225,6 +232,7 @@ struct ContentView: View {
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .accessibilityIdentifier("analysisCompleteLabel")
 
                     if let last = lastAnalyzedAt {
                         let formatted = formatLastAnalyzed(last)
@@ -260,6 +268,7 @@ struct ContentView: View {
                     List(displayedList, id: \.self) { username in
                         ResultRow(username: username, onTap: { openProfile(username: username) })
                     }
+                    .accessibilityIdentifier("resultsList")
                     .overlay(
                         Group {
                             if hasAnalyzed && !searchText.isEmpty && displayedList.isEmpty {
@@ -324,6 +333,11 @@ struct ContentView: View {
         }
         // Global searchable: disabled until results/analysis available
         // Search bar appears only once results exist (attached to the List above)
+        .onAppear {
+            #if DEBUG
+            autoLoadUITestFixtureIfNeeded()
+            #endif
+        }
     }
 
     private var shareText: String {
@@ -619,6 +633,7 @@ private struct ResultRow: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .accessibilityIdentifier("resultRow_\(username)")
     }
 }
 
@@ -682,6 +697,7 @@ private struct ErrorBox: View {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .stroke(Color.red.opacity(0.14))
         )
+        .accessibilityIdentifier("errorMessageBox")
     }
 }
 
@@ -692,6 +708,175 @@ private struct ErrorBox: View {
 // MARK: - Conditional modifiers
 
 // (searchableIf removed; inline search is used instead of UISearchController-based search)
+
+#if DEBUG
+// MARK: - UI Test Fixture Loader (DEBUG only)
+extension ContentView {
+    private func autoLoadUITestFixtureIfNeeded() {
+        guard !didAutoLoadUITestFixture else { return }
+        let args = ProcessInfo.processInfo.arguments
+        guard let idx = args.firstIndex(of: "--ui-test-zip"), args.count > idx + 1 else { return }
+        let target = args[idx + 1]
+
+        if target.hasPrefix("fixture:") {
+            let key = String(target.dropFirst("fixture:".count))
+            if let url = try? generateFixtureZip(named: key) {
+                didAutoLoadUITestFixture = true
+                zipURL = url
+                searchText = ""
+                analyzeZip(url)
+            } else {
+                // Surface generation failure to UI for tests to detect
+                didAutoLoadUITestFixture = true
+                errorMessage = "Fixture generation failed for: \(key)"
+            }
+        } else {
+            // Absolute path passed by tests
+            let url = URL(fileURLWithPath: target)
+            didAutoLoadUITestFixture = true
+            zipURL = url
+            searchText = ""
+            analyzeZip(url)
+        }
+    }
+
+    private func generateFixtureZip(named key: String) throws -> URL {
+        let tmpDir = FileManager.default.temporaryDirectory
+            .appendingPathComponent("UIFixtures-\(UUID().uuidString)", isDirectory: true)
+        try FileManager.default.createDirectory(at: tmpDir, withIntermediateDirectories: true)
+        let uniqueName = "unfollowers-ui-fixture-\(key)-\(UUID().uuidString).zip"
+        let zipURL = tmpDir.appendingPathComponent(uniqueName)
+        let archive = try Archive(url: zipURL, accessMode: .create)
+
+        func addJSON(path: String, obj: Any) throws {
+            let data = try JSONSerialization.data(withJSONObject: obj, options: [.prettyPrinted])
+            try archive.addEntry(with: path, type: .file, uncompressedSize: Int64(data.count), compressionMethod: .deflate, provider: { (position, size) -> Data in
+                let start = Int(position)
+                let end = start + size
+                return data.subdata(in: start..<end)
+            })
+        }
+
+        switch key {
+        case "standard":
+            // followers: {alice, charlie}, following: {alice, bob, charlie} → unfollowers = {bob}
+            let followersObj: [String: Any] = [
+                "relationships_followers": [
+                    ["string_list_data": [["value": "alice"]]],
+                    ["string_list_data": [["value": "charlie"]]]
+                ]
+            ]
+            let followingObj: [String: Any] = [
+                "relationships_following": [
+                    ["string_list_data": [["value": "alice"]]],
+                    ["string_list_data": [["value": "bob"]]],
+                    ["string_list_data": [["value": "charlie"]]]
+                ]
+            ]
+            try addJSON(path: "connections/followers_and_following/followers_1.json", obj: followersObj)
+            try addJSON(path: "connections/followers_and_following/following.json", obj: followingObj)
+
+        case "no_connections_prefix":
+            // Same counts, but at root-level followers_and_following/
+            let followersObj: [String: Any] = [
+                "relationships_followers": [
+                    ["string_list_data": [["value": "alice"]]],
+                    ["string_list_data": [["value": "charlie"]]]
+                ]
+            ]
+            let followingObj: [String: Any] = [
+                "relationships_following": [
+                    ["string_list_data": [["value": "alice"]]],
+                    ["string_list_data": [["value": "bob"]]],
+                    ["string_list_data": [["value": "charlie"]]]
+                ]
+            ]
+            try addJSON(path: "followers_and_following/followers_1.json", obj: followersObj)
+            try addJSON(path: "followers_and_following/following.json", obj: followingObj)
+
+        case "root_level_with_decoy":
+            // Decoy + only following present -> triggers missingFollowersFile
+            let followingObj: [String: Any] = [
+                "relationships_following": [
+                    ["string_list_data": [["value": "alice"]]],
+                    ["string_list_data": [["value": "bob"]]]
+                ]
+            ]
+            try addJSON(path: "some/other/following.json", obj: followingObj) // decoy
+            try addJSON(path: "followers_and_following/following.json", obj: followingObj)
+            // Note: no followers file
+
+        case "instagram_like":
+            // Same as standard under connections/
+            let followersObj: [String: Any] = [
+                "relationships_followers": [
+                    ["string_list_data": [["value": "alice"]]],
+                    ["string_list_data": [["value": "charlie"]]]
+                ]
+            ]
+            let followingObj: [String: Any] = [
+                "relationships_following": [
+                    ["string_list_data": [["value": "alice"]]],
+                    ["string_list_data": [["value": "bob"]]],
+                    ["string_list_data": [["value": "charlie"]]]
+                ]
+            ]
+            try addJSON(path: "connections/followers_and_following/followers_1.json", obj: followersObj)
+            try addJSON(path: "connections/followers_and_following/following.json", obj: followingObj)
+
+        case "connections_misplaced_following":
+            // followers in expected folder; following placed at connections/following.json
+            let followersObj: [String: Any] = [
+                "relationships_followers": [
+                    ["string_list_data": [["value": "alice"]]],
+                    ["string_list_data": [["value": "charlie"]]]
+                ]
+            ]
+            let followingObj: [String: Any] = [
+                "relationships_following": [
+                    ["string_list_data": [["value": "alice"]]],
+                    ["string_list_data": [["value": "bob"]]],
+                    ["string_list_data": [["value": "charlie"]]]
+                ]
+            ]
+            try addJSON(path: "connections/followers_and_following/followers_1.json", obj: followersObj)
+            try addJSON(path: "connections/following.json", obj: followingObj) // misplaced following
+
+        case "instagram_realistic_extra_files":
+            // Standard files + extra irrelevant/alt files
+            let followersObj: [String: Any] = [
+                "relationships_followers": [
+                    ["string_list_data": [["value": "alice"]]],
+                    ["string_list_data": [["value": "charlie"]]]
+                ]
+            ]
+            let followingObj: [String: Any] = [
+                "relationships_following": [
+                    ["string_list_data": [["value": "alice"]]],
+                    ["string_list_data": [["value": "bob"]]],
+                    ["string_list_data": [["value": "charlie"]]]
+                ]
+            ]
+            // Alternative without bob to prove we prefer following.json over following_3.json
+            let followingObjNoBob: [String: Any] = [
+                "relationships_following": [
+                    ["string_list_data": [["value": "alice"]]],
+                    ["string_list_data": [["value": "charlie"]]]
+                ]
+            ]
+            try addJSON(path: "connections/followers_and_following/followers_1.json", obj: followersObj)
+            try addJSON(path: "connections/followers_and_following/following.json", obj: followingObj)
+            try addJSON(path: "connections/followers_and_following/following_3.json", obj: followingObjNoBob) // decoy alt
+            try addJSON(path: "connections/followers_and_following/blocked_profiles.json", obj: ["blocked": []])
+
+        default:
+            break
+        }
+
+        return zipURL
+    }
+}
+#endif
 
 // MARK: - Active Following Info
 
