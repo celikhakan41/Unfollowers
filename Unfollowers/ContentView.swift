@@ -234,17 +234,58 @@ struct ContentView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
 
-                    if hasAnalyzed && !currentList.isEmpty && displayedList.isEmpty {
-                        Text("home.search.no_matches")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                    // Inline search (appears only after analysis)
+                    if hasAnalyzed {
+                        HStack(spacing: 8) {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundStyle(.secondary)
+                            TextField("Search", text: $searchText)
+                                .textInputAutocapitalization(.never)
+                                .disableAutocorrection(true)
+                            if !searchText.isEmpty {
+                                Button(action: { searchText = "" }) {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundStyle(.secondary)
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                        .padding(8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                .fill(.thinMaterial)
+                        )
                     }
 
                     List(displayedList, id: \.self) { username in
                         ResultRow(username: username, onTap: { openProfile(username: username) })
                     }
-                    .searchableIf(hasAnalyzed && !displayedList.isEmpty, text: $searchText)
+                    .overlay(
+                        Group {
+                            if hasAnalyzed && !searchText.isEmpty && displayedList.isEmpty {
+                                if #available(iOS 17.0, *) {
+                                    ContentUnavailableView(
+                                        "No matches",
+                                        systemImage: "magnifyingglass",
+                                        description: Text("Try a different name.")
+                                    )
+                                } else {
+                                    VStack(spacing: 8) {
+                                        Image(systemName: "magnifyingglass")
+                                            .font(.title2)
+                                            .foregroundStyle(.secondary)
+                                        Text("No matches")
+                                            .font(.headline)
+                                            .foregroundStyle(.secondary)
+                                        Text("Try a different name.")
+                                            .font(.footnote)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                }
+                            }
+                        }
+                    )
                 } else {
                     if zipURL != nil && !isAnalyzing && errorMessage == nil && hasAnalyzed == false {
                         MessageCard(textKey: LocalizedStringKey("home.placeholder.after_zip_hint"))
@@ -650,16 +691,7 @@ private struct ErrorBox: View {
 
 // MARK: - Conditional modifiers
 
-fileprivate extension View {
-    @ViewBuilder
-    func searchableIf(_ condition: Bool, text: Binding<String>) -> some View {
-        if condition {
-            self.searchable(text: text, placement: .navigationBarDrawer(displayMode: .always))
-        } else {
-            self
-        }
-    }
-}
+// (searchableIf removed; inline search is used instead of UISearchController-based search)
 
 // MARK: - Active Following Info
 
