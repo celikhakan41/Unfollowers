@@ -54,3 +54,4 @@
 - If a test-only environment hook is added (e.g., `UNFOLLOWERS_TEST_FIXTURE=Senaryo B.zip` under DEBUG) the app can auto-load a bundled fixture for a smoke assertion.
 - This repo currently avoids changing the app target resources for UI; therefore the end-to-end UI smoke is skipped and documented here. Core logic remains thoroughly covered by unit/integration tests.
 
+Tue Jan 20 16:36:18 +03 2026
