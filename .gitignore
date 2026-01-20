@@ -63,3 +63,4 @@ fastlane/screenshots/**/*.png
 # Simulator/device noise (if created at repo root by mistake)
 *.simruntime
 *.simdevice
+.logs_*.txt
