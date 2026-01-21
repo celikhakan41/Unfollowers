@@ -66,3 +66,16 @@
 
 "home.mode.help_hint" = "İpucu: Hazır olduğunda bir mod seçebilirsin. Sonradan değiştirebilirsin.";
 "home.results.empty_after_analysis" = "Bu mod için kullanıcı bulunmadı.";
+
+// Hatalar (Instagram export ayrıştırma)
+"instagram_export.error.cannot_open.title" = "ZIP dosyası açılamadı";
+"instagram_export.error.cannot_open.body" = "Dosyanın geçerli ve bozuk olmadığından emin ol.";
+"instagram_export.error.missing_followers_following.title" = "Followers/Following dosyaları bulunamadı";
+"instagram_export.error.missing_followers_following.body" = "ZIP, gerekli followers/following JSON dosyalarını içermiyor. Export’u yeniden alırken 'Followers and following' seçtiğinden emin ol.";
+"instagram_export.error.missing_followers_file.title" = "Followers dosyası eksik";
+"instagram_export.error.missing_followers_file.body" = "Bu ZIP’te following.json var ancak followers dosyası yok. Export’u yeniden alırken 'Followers and following' seçtiğinden emin ol.";
+"instagram_export.error.invalid_json.title" = "Geçersiz JSON";
+"instagram_export.error.invalid_json.body" = "JSON okunamadı: %@";
+"instagram_export.error.no_users.title" = "Kullanıcı adı bulunamadı";
+"instagram_export.error.no_users.body" = "Followers/following dosyalarından kullanıcı adı çıkarılamadı.";
+"instagram_export.error.found_jsons.header" = "ZIP içinde bulunan JSON’lar:";

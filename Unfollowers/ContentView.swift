@@ -482,12 +482,12 @@ struct ContentView: View {
                 }
             } catch {
                 await MainActor.run {
-                    if let zipError = error as? InstagramJSONParser.ZipError {
-                        // Our custom ZIP error
-                        errorMessage = zipError.localizedDescription
+                    if let exportError = error as? InstagramJSONParser.InstagramExportError {
+                        // Map typed parser error to localized UI text
+                        errorMessage = localizedErrorMessage(for: exportError)
 
                         // If followers file is missing → automatically open the help screen
-                        if case .missingFollowersFile = zipError {
+                        if case .missingFollowersFile = exportError {
                             showHelp = true
                         }
                     } else {
@@ -499,6 +499,37 @@ struct ContentView: View {
                     lastAnalyzedAt = Date()
                 }
             }
+        }
+    }
+
+    private func localizedErrorMessage(for error: InstagramJSONParser.InstagramExportError) -> String {
+        switch error {
+        case .cannotOpen:
+            let title = NSLocalizedString("instagram_export.error.cannot_open.title", comment: "")
+            let body = NSLocalizedString("instagram_export.error.cannot_open.body", comment: "")
+            return "\(title)\n\n\(body)"
+        case .missingFollowersAndFollowing(let found):
+            let title = NSLocalizedString("instagram_export.error.missing_followers_following.title", comment: "")
+            let body = NSLocalizedString("instagram_export.error.missing_followers_following.body", comment: "")
+            let header = NSLocalizedString("instagram_export.error.found_jsons.header", comment: "")
+            let list = found.map { "• \($0)" }.joined(separator: "\n")
+            let section = found.isEmpty ? "" : "\n\n\(header)\n\(list)"
+            return "\(title)\n\n\(body)\(section)"
+        case .missingFollowersFile(let found):
+            let title = NSLocalizedString("instagram_export.error.missing_followers_file.title", comment: "")
+            let body = NSLocalizedString("instagram_export.error.missing_followers_file.body", comment: "")
+            let header = NSLocalizedString("instagram_export.error.found_jsons.header", comment: "")
+            let list = found.map { "• \($0)" }.joined(separator: "\n")
+            let section = found.isEmpty ? "" : "\n\n\(header)\n\(list)"
+            return "\(title)\n\n\(body)\(section)"
+        case .invalidJSON(let file):
+            let title = NSLocalizedString("instagram_export.error.invalid_json.title", comment: "")
+            let body = String(format: NSLocalizedString("instagram_export.error.invalid_json.body", comment: ""), file)
+            return "\(title)\n\n\(body)"
+        case .noUsersExtracted:
+            let title = NSLocalizedString("instagram_export.error.no_users.title", comment: "")
+            let body = NSLocalizedString("instagram_export.error.no_users.body", comment: "")
+            return "\(title)\n\n\(body)"
         }
     }
 

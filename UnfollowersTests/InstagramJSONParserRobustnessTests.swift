@@ -50,7 +50,7 @@ final class InstagramJSONParserRobustnessTests: XCTestCase {
             .appendingPathComponent("Invalid.zip")
 
         XCTAssertThrowsError(try InstagramJSONParser.extractFromInstagramZip(invalid)) { error in
-            guard let zipError = error as? InstagramJSONParser.ZipError else {
+            guard let zipError = error as? InstagramJSONParser.InstagramExportError else {
                 return XCTFail("Unexpected error type: \(error)")
             }
             switch zipError {
@@ -68,11 +68,11 @@ final class InstagramJSONParserRobustnessTests: XCTestCase {
         let zipURL = try makeZip(with: [(path: "misc/other.json", contents: dummy)])
 
         XCTAssertThrowsError(try InstagramJSONParser.extractFromInstagramZip(zipURL)) { error in
-            guard let zipError = error as? InstagramJSONParser.ZipError else {
+            guard let zipError = error as? InstagramJSONParser.InstagramExportError else {
                 return XCTFail("Unexpected error type: \(error)")
             }
             switch zipError {
-            case .missingFiles: break // expected
+            case .missingFollowersAndFollowing: break // expected
             default: XCTFail("Wrong error for missing JSON: \(zipError)")
             }
         }
@@ -89,7 +89,7 @@ final class InstagramJSONParserRobustnessTests: XCTestCase {
         let zipURL = try makeZip(with: [(path: "connections/followers_and_following/following.json", contents: data)])
 
         XCTAssertThrowsError(try InstagramJSONParser.extractFromInstagramZip(zipURL)) { error in
-            guard let zipError = error as? InstagramJSONParser.ZipError else {
+            guard let zipError = error as? InstagramJSONParser.InstagramExportError else {
                 return XCTFail("Unexpected error type: \(error)")
             }
             switch zipError {
@@ -110,11 +110,11 @@ final class InstagramJSONParserRobustnessTests: XCTestCase {
         let zipURL = try makeZip(with: [(path: "connections/followers_and_following/followers_1.json", contents: data)])
 
         XCTAssertThrowsError(try InstagramJSONParser.extractFromInstagramZip(zipURL)) { error in
-            guard let zipError = error as? InstagramJSONParser.ZipError else {
+            guard let zipError = error as? InstagramJSONParser.InstagramExportError else {
                 return XCTFail("Unexpected error type: \(error)")
             }
             switch zipError {
-            case .missingFiles: break // expected when following is missing
+            case .missingFollowersAndFollowing: break // expected when following is missing
             default: XCTFail("Wrong error for only-followers ZIP: \(zipError)")
             }
         }
@@ -197,7 +197,7 @@ final class InstagramJSONParserRobustnessTests: XCTestCase {
         ])
 
         XCTAssertThrowsError(try InstagramJSONParser.extractFromInstagramZip(zipURL)) { error in
-            guard case let InstagramJSONParser.ZipError.invalidJSON(file: file) = error else {
+            guard case let InstagramJSONParser.InstagramExportError.invalidJSON(file: file) = error else {
                 return XCTFail("Expected invalidJSON for followers, got: \(error)")
             }
             XCTAssertTrue(file.lowercased().hasSuffix("followers_1.json"))
@@ -216,7 +216,7 @@ final class InstagramJSONParserRobustnessTests: XCTestCase {
         ])
 
         XCTAssertThrowsError(try InstagramJSONParser.extractFromInstagramZip(zipURL)) { error in
-            guard case let InstagramJSONParser.ZipError.invalidJSON(file: file) = error else {
+            guard case let InstagramJSONParser.InstagramExportError.invalidJSON(file: file) = error else {
                 return XCTFail("Expected invalidJSON for following, got: \(error)")
             }
             XCTAssertTrue(file.lowercased().hasSuffix("following.json"))
@@ -241,7 +241,7 @@ final class InstagramJSONParserRobustnessTests: XCTestCase {
         ])
 
         XCTAssertThrowsError(try InstagramJSONParser.extractFromInstagramZip(zipURL)) { error in
-            guard let zipError = error as? InstagramJSONParser.ZipError else {
+            guard let zipError = error as? InstagramJSONParser.InstagramExportError else {
                 return XCTFail("Unexpected error type: \(error)")
             }
             switch zipError {

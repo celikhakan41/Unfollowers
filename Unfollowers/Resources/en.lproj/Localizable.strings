@@ -66,3 +66,16 @@
 
 "home.mode.help_hint" = "Tip: Choose a mode when you're ready. You can change it later.";
 "home.results.empty_after_analysis" = "No users found for this mode.";
+
+// Errors (Instagram export parsing)
+"instagram_export.error.cannot_open.title" = "Could not open ZIP";
+"instagram_export.error.cannot_open.body" = "Make sure the file is valid and not corrupted.";
+"instagram_export.error.missing_followers_following.title" = "Followers/Following files not found";
+"instagram_export.error.missing_followers_following.body" = "Your ZIP doesn't contain the required followers/following JSON files. Re-download the export and include 'Followers and following'.";
+"instagram_export.error.missing_followers_file.title" = "Followers file is missing";
+"instagram_export.error.missing_followers_file.body" = "The ZIP contains following.json, but the followers file is missing. Re-download the export and include 'Followers and following'.";
+"instagram_export.error.invalid_json.title" = "Invalid JSON";
+"instagram_export.error.invalid_json.body" = "Could not parse: %@";
+"instagram_export.error.no_users.title" = "No usernames found";
+"instagram_export.error.no_users.body" = "No usernames could be extracted from the followers/following files.";
+"instagram_export.error.found_jsons.header" = "JSON files found in ZIP:";

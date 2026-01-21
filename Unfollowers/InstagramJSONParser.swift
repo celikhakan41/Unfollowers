@@ -24,7 +24,7 @@ enum InstagramJSONParser {
         do {
             archive = try Archive(url: zipURL, accessMode: .read)
         } catch {
-            throw ZipError.cannotOpen
+            throw InstagramExportError.cannotOpen
         }
 
         let jsonEntries = archive.jsonEntries()
@@ -34,12 +34,13 @@ enum InstagramJSONParser {
         let followingEntryOpt = pickFollowingEntry(from: jsonEntries)
 
         if followersEntryOpt == nil, followingEntryOpt != nil {
-            let found = jsonEntries.map { $0.path }.joined(separator: "\n• ")
-            throw ZipError.missingFollowersFile(foundJsonList: found)
+            let found = jsonEntries.map { $0.path }
+            throw InstagramExportError.missingFollowersFile(foundJSONs: found)
         }
 
         guard let followersEntry = followersEntryOpt, let followingEntry = followingEntryOpt else {
-            throw ZipError.missingFiles
+            let found = jsonEntries.map { $0.path }
+            throw InstagramExportError.missingFollowersAndFollowing(foundJSONs: found)
         }
 
         let tmpDir = FileManager.default.temporaryDirectory
@@ -57,7 +58,7 @@ enum InstagramJSONParser {
             let obj = try JSONSerialization.jsonObject(with: data)
             collectUsernamesFromRelationshipExports(obj, into: &followers)
         } catch {
-            throw ZipError.invalidJSON(file: followersEntry.path)
+            throw InstagramExportError.invalidJSON(file: followersEntry.path)
         }
 
         do {
@@ -67,12 +68,12 @@ enum InstagramJSONParser {
             let obj = try JSONSerialization.jsonObject(with: data)
             collectUsernamesFromRelationshipExports(obj, into: &following)
         } catch {
-            throw ZipError.invalidJSON(file: followingEntry.path)
+            throw InstagramExportError.invalidJSON(file: followingEntry.path)
         }
 
         // If both parsed but yielded no users, surface a clear error
         if followers.isEmpty && following.isEmpty {
-            throw ZipError.noUsersExtracted
+            throw InstagramExportError.noUsersExtracted
         }
 
         let followersEntryLabel = followersEntry.path
@@ -93,7 +94,7 @@ enum InstagramJSONParser {
         do {
             archive = try Archive(url: zipURL, accessMode: .read)
         } catch {
-            throw ZipError.cannotOpen
+            throw InstagramExportError.cannotOpen
         }
 
         let jsonEntries = archive.jsonEntries()
@@ -112,7 +113,7 @@ enum InstagramJSONParser {
             let obj = try JSONSerialization.jsonObject(with: data)
             collectFollowingUserTimestamps(obj, into: &map)
         } catch {
-            throw ZipError.invalidJSON(file: followingEntry.path)
+            throw InstagramExportError.invalidJSON(file: followingEntry.path)
         }
 
         return map
@@ -286,34 +287,12 @@ enum InstagramJSONParser {
         }
     }
 
-    enum ZipError: LocalizedError {
+    enum InstagramExportError: Error {
         case cannotOpen
-        case missingFiles
-        case missingFollowersFile(foundJsonList: String)
+        case missingFollowersAndFollowing(foundJSONs: [String])
+        case missingFollowersFile(foundJSONs: [String])
         case invalidJSON(file: String)
         case noUsersExtracted
-
-        var errorDescription: String? {
-            switch self {
-            case .cannotOpen:
-                return "ZIP dosyası açılamadı. Dosyanın bozuk olmadığından emin ol."
-            case .missingFiles:
-                return "ZIP içinde followers/following JSON dosyaları bulunamadı. Instagram’da ‘Followers and following’ bilgisini indirdiğinden emin ol."
-            case .missingFollowersFile(let foundJsonList):
-                return """
-Bu ZIP’te following.json bulundu ama followers dosyası yok.
-
-Instagram export’unu tekrar alırken ‘Followers and following’ seçtiğinden emin ol.
-
-ZIP içinde bulunan JSON’lar:
-• \(foundJsonList)
-"""
-            case .invalidJSON(let file):
-                return "JSON okunamadı: \(file)"
-            case .noUsersExtracted:
-                return "Followers/following dosyalarından kullanıcı adı çıkarılamadı."
-            }
-        }
     }
 }
 
