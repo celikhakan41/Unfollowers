@@ -32,8 +32,12 @@ final class UnfollowersUITests: XCTestCase {
         let analysisDone = app.staticTexts["analysisCompleteLabel"]
         XCTAssertTrue(analysisDone.waitForExistence(timeout: 20))
 
+        // Switch to All mode explicitly for assertions
+        XCTAssertTrue(app.buttons["mode_all"].waitForExistence(timeout: 2))
+        app.buttons["mode_all"].tap()
+
         // Should list unfollower "bob"
-        XCTAssertTrue(app.buttons["resultRow_bob"].waitForExistence(timeout: 2))
+        XCTAssertTrue(app.buttons["resultRow_bob"].waitForExistence(timeout: 5))
     }
 
     @MainActor
@@ -45,7 +49,9 @@ final class UnfollowersUITests: XCTestCase {
 
         let analysisDone = app.staticTexts["analysisCompleteLabel"]
         XCTAssertTrue(analysisDone.waitForExistence(timeout: 20))
-        XCTAssertTrue(app.buttons["resultRow_bob"].exists)
+        XCTAssertTrue(app.buttons["mode_all"].waitForExistence(timeout: 2))
+        app.buttons["mode_all"].tap()
+        XCTAssertTrue(app.buttons["resultRow_bob"].waitForExistence(timeout: 5))
     }
 
     @MainActor
@@ -69,7 +75,9 @@ final class UnfollowersUITests: XCTestCase {
 
         let analysisDone = app.staticTexts["analysisCompleteLabel"]
         XCTAssertTrue(analysisDone.waitForExistence(timeout: 20))
-        XCTAssertTrue(app.buttons["resultRow_bob"].exists)
+        XCTAssertTrue(app.buttons["mode_all"].waitForExistence(timeout: 2))
+        app.buttons["mode_all"].tap()
+        XCTAssertTrue(app.buttons["resultRow_bob"].waitForExistence(timeout: 5))
     }
 
     @MainActor
@@ -82,7 +90,10 @@ final class UnfollowersUITests: XCTestCase {
 
         let analysisDone = app.staticTexts["analysisCompleteLabel"]
         if analysisDone.waitForExistence(timeout: 20) {
-            XCTAssertTrue(app.buttons["resultRow_bob"].exists, "Expected bob in results on success path")
+            if app.buttons["mode_all"].waitForExistence(timeout: 2) {
+                app.buttons["mode_all"].tap()
+            }
+            XCTAssertTrue(app.buttons["resultRow_bob"].waitForExistence(timeout: 5), "Expected bob in results on success path")
         } else {
             // Error box must be visible if analysis did not complete
             XCTAssertTrue(app.otherElements["errorMessageBox"].waitForExistence(timeout: 10))
@@ -99,7 +110,9 @@ final class UnfollowersUITests: XCTestCase {
 
         let analysisDone = app.staticTexts["analysisCompleteLabel"]
         XCTAssertTrue(analysisDone.waitForExistence(timeout: 20))
-        XCTAssertTrue(app.buttons["resultRow_bob"].exists, "bob should appear proving following.json was preferred over following_3.json")
+        XCTAssertTrue(app.buttons["mode_all"].waitForExistence(timeout: 2))
+        app.buttons["mode_all"].tap()
+        XCTAssertTrue(app.buttons["resultRow_bob"].waitForExistence(timeout: 5), "bob should appear proving following.json was preferred over following_3.json")
     }
 
     @MainActor

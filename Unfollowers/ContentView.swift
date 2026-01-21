@@ -48,7 +48,7 @@ struct ContentView: View {
         }
     }
 
-    @State private var mode: FollowingMode = .all
+    @State private var mode: FollowingMode = .active180
 
     // Marks that an analysis has completed (for count visibility)
     private var hasAnalyzed: Bool {
@@ -117,24 +117,80 @@ struct ContentView: View {
                 // Mode selector + info + helper
                 VStack(alignment: .leading, spacing: 2) {
                     HStack(alignment: .center, spacing: 8) {
-                        Picker("home.mode.label", selection: $mode) {
-                            ForEach(FollowingMode.allCases, id: \.self) { m in
-                                let shortKey: String = {
-                                    switch m {
-                                    case .all: return "mode.short.all"
-                                    case .active365: return "mode.short.365d"
-                                    case .active180: return "mode.short.180d"
-                                    }
-                                }()
-                                Text(LocalizedStringKey(shortKey))
-                                    .accessibilityLabel(LocalizedStringKey(m.localizationKey))
-                                    .tag(m)
+                        // Custom segmented control (3 buttons) to allow per-segment accessibility identifiers
+                        HStack(spacing: 0) {
+                            // 180d
+                            Button(action: { mode = .active180 }) {
+                                Text(LocalizedStringKey("mode.short.180d"))
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 6)
                             }
+                            .buttonStyle(.plain)
+                            .contentShape(Rectangle())
+                            .background(
+                                Group {
+                                    if mode == .active180 {
+                                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                            .fill(Color.accentColor.opacity(0.2))
+                                    } else { Color.clear }
+                                }
+                            )
+                            .accessibilityLabel(LocalizedStringKey("mode.active180"))
+                            .accessibilityIdentifier("mode_180")
+                            .accessibilityAddTraits(.isButton)
+
+                            // 365d
+                            Button(action: { mode = .active365 }) {
+                                Text(LocalizedStringKey("mode.short.365d"))
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 6)
+                            }
+                            .buttonStyle(.plain)
+                            .contentShape(Rectangle())
+                            .background(
+                                Group {
+                                    if mode == .active365 {
+                                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                            .fill(Color.accentColor.opacity(0.2))
+                                    } else { Color.clear }
+                                }
+                            )
+                            .accessibilityLabel(LocalizedStringKey("mode.active365"))
+                            .accessibilityIdentifier("mode_365")
+                            .accessibilityAddTraits(.isButton)
+
+                            // All
+                            Button(action: { mode = .all }) {
+                                Text(LocalizedStringKey("mode.short.all"))
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 6)
+                            }
+                            .buttonStyle(.plain)
+                            .contentShape(Rectangle())
+                            .background(
+                                Group {
+                                    if mode == .all {
+                                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                            .fill(Color.accentColor.opacity(0.2))
+                                    } else { Color.clear }
+                                }
+                            )
+                            .accessibilityLabel(LocalizedStringKey("mode.all"))
+                            .accessibilityIdentifier("mode_all")
+                            .accessibilityAddTraits(.isButton)
                         }
-                        .pickerStyle(.segmented)
-                        .controlSize(.small)
-                        .padding(.vertical, 2)
+                        .padding(2)
                         .frame(maxWidth: .infinity)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .fill(.thinMaterial)
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .stroke(Color.secondary.opacity(0.25), lineWidth: 1)
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                        .accessibilityIdentifier("mode_segmented_control")
 
                         Button {
                             showActiveInfo = true
@@ -724,6 +780,8 @@ extension ContentView {
                 didAutoLoadUITestFixture = true
                 zipURL = url
                 searchText = ""
+                // For UI tests, start in All mode to ensure consistent assertions
+                mode = .all
                 analyzeZip(url)
             } else {
                 // Surface generation failure to UI for tests to detect
@@ -736,6 +794,8 @@ extension ContentView {
             didAutoLoadUITestFixture = true
             zipURL = url
             searchText = ""
+            // For UI tests, start in All mode to ensure consistent assertions
+            mode = .all
             analyzeZip(url)
         }
     }
