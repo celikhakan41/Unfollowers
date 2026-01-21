@@ -9,7 +9,6 @@ An example iOS app built with SwiftUI, focused on analyzing Instagram export dat
 - [Features](#features)
 - [Requirements](#requirements)
 - [Getting Started](#getting-started)
-- [Commands](#commands)
 - [Simulator & UDID](#simulator--udid)
 - [Project Structure](#project-structure)
 - [Tests](#tests)
@@ -24,7 +23,12 @@ This repository follows a clean, reproducible iOS project layout with Makefile-d
 ## Features
 - SwiftUI-based UI
 - File picker (import Instagram export)
-- JSON parsing (with example datasets)
+- Three analysis modes with segmented selector:
+  - Active Following (last 180 days) — default
+  - Active Following (last 365 days)
+  - All Following (historical)
+- Fully offline analysis; no login or network required
+- English and Turkish localization; Instagram export errors are localized at the UI layer using namespaced keys (e.g. `instagram_export.*`)
 - Xcode test plan for unit and UI tests
 
 ## Requirements
@@ -134,6 +138,12 @@ Unfollowers/
   ```bash
   make test
   ```
+
+UI testing tips:
+- Deterministic fixtures can be fed to the app via a launch argument, e.g.:
+  - `--ui-test-zip fixture:standard`
+- To keep overlays predictable during UI tests, set the environment variable `UI_TESTING=1` to disable auto-opening the Help sheet on certain errors.
+- Stable accessibility identifiers used by tests include: `mode_all`, `mode_180`, `mode_365`, `helpSheet`, `helpCloseButton`, `errorMessageBox`, `analysisCompleteLabel`, `resultsList`, `resultRow_<username>`.
 
 ## Scripts
 - `scripts/generate_appicon.swift`: Generates a 1024x1024 example app icon and writes it to `Unfollowers/Assets.xcassets/AppIcon.appiconset/`.
