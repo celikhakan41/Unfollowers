@@ -43,7 +43,6 @@
 "share.generated_from_instagram" = "Instagram verisinden oluşturuldu";
 "share.main_title" = "Unfollowers — ZIP analizi (%d)";
 
-"error.no_results" = "Bu ZIP’ten sonuç üretilemedi (0 kişi). Dosyanın doğru export olduğundan emin ol.";
 
 "home.placeholder.no_zip_card" = "Başlamak için yukarıdaki düğmeyle Instagram ZIP’ini seç. Verilerin cihazdan çıkmaz.";
 "home.placeholder.after_zip_hint" = "ZIP seçildi. Analiz bitince sonuçlar görünecek. Hiçbir şey çıkmazsa Yardım’a göz at.";

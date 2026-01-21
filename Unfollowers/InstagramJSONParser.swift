@@ -444,7 +444,7 @@ private extension InstagramJSONParser {
         if lowerRaw.hasPrefix("http://") { s.removeFirst(7) }
         else if lowerRaw.hasPrefix("https://") { s.removeFirst(8) }
 
-        var lower = s.lowercased()
+        let lower = s.lowercased()
         if let range = lower.range(of: "instagram.com") {
             // strip everything up to and including "instagram.com"
             let end = range.upperBound

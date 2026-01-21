@@ -42,7 +42,6 @@
 "share.generated_from_instagram" = "Generated from Instagram export";
 "share.main_title" = "Unfollowers — ZIP analysis (%d)";
 
-"error.no_results" = "No results from this ZIP (0 users). Make sure your export is correct.";
 
 "home.placeholder.no_zip_card" = "Pick your Instagram ZIP with the button above to start. Your data never leaves the device.";
 "home.placeholder.after_zip_hint" = "ZIP selected. Results appear after analysis. If nothing shows, open Help for steps.";
