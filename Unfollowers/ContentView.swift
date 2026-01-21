@@ -122,6 +122,7 @@ struct ContentView: View {
                             // 180d
                             Button(action: { mode = .active180 }) {
                                 Text(LocalizedStringKey("mode.short.180d"))
+                                    .accessibilityIdentifier("mode_180")
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 6)
                             }
@@ -142,6 +143,7 @@ struct ContentView: View {
                             // 365d
                             Button(action: { mode = .active365 }) {
                                 Text(LocalizedStringKey("mode.short.365d"))
+                                    .accessibilityIdentifier("mode_365")
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 6)
                             }
@@ -162,6 +164,7 @@ struct ContentView: View {
                             // All
                             Button(action: { mode = .all }) {
                                 Text(LocalizedStringKey("mode.short.all"))
+                                    .accessibilityIdentifier("mode_all")
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 6)
                             }
@@ -190,6 +193,7 @@ struct ContentView: View {
                                 .stroke(Color.secondary.opacity(0.25), lineWidth: 1)
                         )
                         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                        .accessibilityElement(children: .contain)
                         .accessibilityIdentifier("mode_segmented_control")
 
                         Button {

@@ -7,6 +7,40 @@
 
 import XCTest
 
+// Helper to tap elements by accessibility identifier independent of element type
+func tapById(_ app: XCUIApplication, _ id: String, timeout: TimeInterval = 5) {
+    // Try a few concrete types first, then fallback to any-descendants
+    let queries: [XCUIElement] = [
+        app.buttons[id].firstMatch,
+        app.otherElements[id].firstMatch,
+        app.staticTexts[id].firstMatch,
+        app.descendants(matching: .any)[id].firstMatch
+    ]
+
+    var found: XCUIElement?
+    for q in queries {
+        if q.waitForExistence(timeout: timeout) {
+            found = q
+            break
+        }
+    }
+
+    guard let el = found else {
+        // Attach the full accessibility debugDescription for diagnosis
+        let attachment = XCTAttachment(string: app.debugDescription)
+        attachment.name = "UI Debug Tree"
+        attachment.lifetime = .keepAlways
+        // Use XCTContext to ensure attachment is recorded outside of a test instance
+        XCTContext.runActivity(named: "Missing element id=\(id)") { activity in
+            activity.add(attachment)
+        }
+        XCTFail("Missing element id=\(id)")
+        return
+    }
+
+    el.tap()
+}
+
 final class UnfollowersUITests: XCTestCase {
 
     override func setUpWithError() throws {
@@ -33,8 +67,7 @@ final class UnfollowersUITests: XCTestCase {
         XCTAssertTrue(analysisDone.waitForExistence(timeout: 20))
 
         // Switch to All mode explicitly for assertions
-        XCTAssertTrue(app.buttons["mode_all"].waitForExistence(timeout: 2))
-        app.buttons["mode_all"].tap()
+        tapById(app, "mode_all", timeout: 5)
 
         // Should list unfollower "bob"
         XCTAssertTrue(app.buttons["resultRow_bob"].waitForExistence(timeout: 5))
@@ -49,8 +82,7 @@ final class UnfollowersUITests: XCTestCase {
 
         let analysisDone = app.staticTexts["analysisCompleteLabel"]
         XCTAssertTrue(analysisDone.waitForExistence(timeout: 20))
-        XCTAssertTrue(app.buttons["mode_all"].waitForExistence(timeout: 2))
-        app.buttons["mode_all"].tap()
+        tapById(app, "mode_all", timeout: 5)
         XCTAssertTrue(app.buttons["resultRow_bob"].waitForExistence(timeout: 5))
     }
 
@@ -75,8 +107,7 @@ final class UnfollowersUITests: XCTestCase {
 
         let analysisDone = app.staticTexts["analysisCompleteLabel"]
         XCTAssertTrue(analysisDone.waitForExistence(timeout: 20))
-        XCTAssertTrue(app.buttons["mode_all"].waitForExistence(timeout: 2))
-        app.buttons["mode_all"].tap()
+        tapById(app, "mode_all", timeout: 5)
         XCTAssertTrue(app.buttons["resultRow_bob"].waitForExistence(timeout: 5))
     }
 
@@ -90,8 +121,8 @@ final class UnfollowersUITests: XCTestCase {
 
         let analysisDone = app.staticTexts["analysisCompleteLabel"]
         if analysisDone.waitForExistence(timeout: 20) {
-            if app.buttons["mode_all"].waitForExistence(timeout: 2) {
-                app.buttons["mode_all"].tap()
+            if app.descendants(matching: .any)["mode_all"].waitForExistence(timeout: 2) {
+                tapById(app, "mode_all", timeout: 5)
             }
             XCTAssertTrue(app.buttons["resultRow_bob"].waitForExistence(timeout: 5), "Expected bob in results on success path")
         } else {
@@ -110,8 +141,7 @@ final class UnfollowersUITests: XCTestCase {
 
         let analysisDone = app.staticTexts["analysisCompleteLabel"]
         XCTAssertTrue(analysisDone.waitForExistence(timeout: 20))
-        XCTAssertTrue(app.buttons["mode_all"].waitForExistence(timeout: 2))
-        app.buttons["mode_all"].tap()
+        tapById(app, "mode_all", timeout: 5)
         XCTAssertTrue(app.buttons["resultRow_bob"].waitForExistence(timeout: 5), "bob should appear proving following.json was preferred over following_3.json")
     }
 
