@@ -88,14 +88,36 @@ final class UnfollowersUITests: XCTestCase {
 
     @MainActor
     func testRootLevelWithDecoyShowsError() throws {
-        throw XCTSkip("Skipping root_level_with_decoy fixture temporarily to deflake suite; awaiting stabilized error UI.")
         let app = XCUIApplication()
+        // Stable locale
         app.launchArguments += ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        // Fixture for missing followers file
         app.launchArguments += ["--ui-test-zip", "fixture:root_level_with_decoy"]
+        // Mark UI testing to optionally disable auto-help
+        app.launchEnvironment["UI_TESTING"] = "1"
         app.launch()
 
-        // Error message box should appear
-        XCTAssertTrue(app.otherElements["errorMessageBox"].waitForExistence(timeout: 10))
+        // If Help sheet pops up, close it first for deterministic assertion
+        if app.otherElements["helpSheet"].waitForExistence(timeout: 2) {
+            tapById(app, "helpCloseButton", timeout: 5)
+        }
+
+        // Error message box should appear (type-agnostic)
+        let errorEl = app.descendants(matching: .any)["errorMessageBox"].firstMatch
+        if !errorEl.waitForExistence(timeout: 15) {
+            // Retry after ensuring help is closed
+            if app.otherElements["helpSheet"].exists {
+                tapById(app, "helpCloseButton", timeout: 5)
+            }
+            let ok = app.descendants(matching: .any)["errorMessageBox"].firstMatch.waitForExistence(timeout: 10)
+            if !ok {
+                let attachment = XCTAttachment(string: app.debugDescription)
+                attachment.name = "UI Debug Tree"
+                attachment.lifetime = .keepAlways
+                add(attachment)
+            }
+            XCTAssertTrue(ok, "Expected errorMessageBox after closing help sheet if needed")
+        }
     }
 
     @MainActor

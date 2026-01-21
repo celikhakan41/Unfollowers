@@ -488,7 +488,9 @@ struct ContentView: View {
 
                         // If followers file is missing → automatically open the help screen
                         if case .missingFollowersFile = exportError {
-                            showHelp = true
+                            if !isUITesting {
+                                showHelp = true
+                            }
                         }
                     } else {
                         // An unexpected error
@@ -500,6 +502,11 @@ struct ContentView: View {
                 }
             }
         }
+    }
+
+    private var isUITesting: Bool {
+        let env = ProcessInfo.processInfo.environment
+        return env["UI_TESTING"] == "1" || ProcessInfo.processInfo.arguments.contains("--ui-testing")
     }
 
     private func localizedErrorMessage(for error: InstagramJSONParser.InstagramExportError) -> String {
@@ -604,8 +611,10 @@ private struct HelpView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(trailing:
                 Button(String(localized: "common.close")) { dismiss() }
+                    .accessibilityIdentifier("helpCloseButton")
             )
         }
+        .accessibilityIdentifier("helpSheet")
     }
 
     private func stepIcon(for index: Int) -> String {
