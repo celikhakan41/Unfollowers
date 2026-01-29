@@ -30,6 +30,15 @@ struct ContentView: View {
     @State private var showActiveInfo = false
     @State private var searchText: String = ""
     @State private var lastAnalyzedAt: Date?
+    // UI state machine and timing controls (behavior-only; no layout changes)
+    private enum AnalysisUIState: Equatable { case idle, selected, working, success, error }
+    @State private var uiState: AnalysisUIState = .idle
+    @State private var contentDimmed: Bool = false // fades to 0.6 when controls disabled
+    @State private var analysisStartTime: Date?
+    // Haptic triggers (used via onChange; no new UI elements)
+    @State private var didPickFileTick: Int = 0
+    @State private var didSucceedTick: Int = 0
+    @State private var didErrorTick: Int = 0
     #if DEBUG
     @State private var didAutoLoadUITestFixture = false
     #endif
@@ -49,6 +58,8 @@ struct ContentView: View {
     }
 
     @State private var mode: FollowingMode = .active180
+    private var controlsDisabled: Bool { uiState == .selected || uiState == .working }
+    private var shouldPolish: Bool { !isUITesting }
 
     // Marks that an analysis has completed (for count visibility)
     private var hasAnalyzed: Bool {
@@ -95,6 +106,7 @@ struct ContentView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .accessibilityIdentifier("pickZipButton")
+                .disabled(controlsDisabled)
 
                 if let name = zipURL?.lastPathComponent {
                     HStack {
@@ -120,7 +132,9 @@ struct ContentView: View {
                         // Custom segmented control (3 buttons) to allow per-segment accessibility identifiers
                         HStack(spacing: 0) {
                             // 180d
-                            Button(action: { mode = .active180 }) {
+                            Button(action: {
+                                withAnimation(.easeOut(duration: 0.14)) { mode = .active180 }
+                            }) {
                                 Text(LocalizedStringKey("mode.short.180d"))
                                     .accessibilityIdentifier("mode_180")
                                     .frame(maxWidth: .infinity)
@@ -136,12 +150,15 @@ struct ContentView: View {
                                     } else { Color.clear }
                                 }
                             )
+                            .animation(.easeOut(duration: 0.14), value: mode)
                             .accessibilityLabel(LocalizedStringKey("mode.active180"))
                             .accessibilityIdentifier("mode_180")
                             .accessibilityAddTraits(.isButton)
 
                             // 365d
-                            Button(action: { mode = .active365 }) {
+                            Button(action: {
+                                withAnimation(.easeOut(duration: 0.14)) { mode = .active365 }
+                            }) {
                                 Text(LocalizedStringKey("mode.short.365d"))
                                     .accessibilityIdentifier("mode_365")
                                     .frame(maxWidth: .infinity)
@@ -157,12 +174,15 @@ struct ContentView: View {
                                     } else { Color.clear }
                                 }
                             )
+                            .animation(.easeOut(duration: 0.14), value: mode)
                             .accessibilityLabel(LocalizedStringKey("mode.active365"))
                             .accessibilityIdentifier("mode_365")
                             .accessibilityAddTraits(.isButton)
 
                             // All
-                            Button(action: { mode = .all }) {
+                            Button(action: {
+                                withAnimation(.easeOut(duration: 0.14)) { mode = .all }
+                            }) {
                                 Text(LocalizedStringKey("mode.short.all"))
                                     .accessibilityIdentifier("mode_all")
                                     .frame(maxWidth: .infinity)
@@ -178,6 +198,7 @@ struct ContentView: View {
                                     } else { Color.clear }
                                 }
                             )
+                            .animation(.easeOut(duration: 0.14), value: mode)
                             .accessibilityLabel(LocalizedStringKey("mode.all"))
                             .accessibilityIdentifier("mode_all")
                             .accessibilityAddTraits(.isButton)
@@ -364,6 +385,9 @@ struct ContentView: View {
                 }
             }
             .padding()
+            // Behavior-only: dim only main content (not nav chrome)
+            .opacity(contentDimmed ? 0.6 : 1.0)
+            .animation(contentDimmed ? .easeIn(duration: 0.2) : .easeOut(duration: 0.2), value: contentDimmed)
             .navigationTitle(Text("app.title"))
             .navigationBarItems(
                 leading: Button(action: { showHelp = true }) {
@@ -377,8 +401,12 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showPicker) {
             DocumentPicker { url in
+                // Successful file selection (post-pick): light haptic, disable controls, dim UI, then analyze
                 zipURL = url
                 searchText = ""
+                uiState = .selected
+                if shouldPolish { contentDimmed = true }
+                didPickFileTick &+= 1
                 analyzeZip(url)
             }
         }
@@ -398,6 +426,50 @@ struct ContentView: View {
             autoLoadUITestFixtureIfNeeded()
             #endif
         }
+        // Haptics: map state changes to system feedback without altering layout
+        // iOS 17+ two-parameter onChange; fallback for earlier iOS
+        .modifier(
+            OnChangeCompat(value: didPickFileTick) {
+                if shouldPolish {
+                    #if canImport(UIKit)
+                    let generator = UIImpactFeedbackGenerator(style: .light)
+                    generator.impactOccurred()
+                    #endif
+                }
+            }
+        )
+        .modifier(
+            OnChangeCompat(value: didSucceedTick) {
+                if shouldPolish {
+                    #if canImport(UIKit)
+                    let generator = UINotificationFeedbackGenerator()
+                    generator.notificationOccurred(.success)
+                    #endif
+                }
+            }
+        )
+        .modifier(
+            OnChangeCompat(value: didErrorTick) {
+                if shouldPolish {
+                    #if canImport(UIKit)
+                    let generator = UINotificationFeedbackGenerator()
+                    generator.notificationOccurred(.warning)
+                    #endif
+                }
+            }
+        )
+        // Segmented control selection haptic (soft selection)
+        .modifier(
+            OnChangeCompat(value: mode) {
+                if shouldPolish {
+                    #if canImport(UIKit)
+                    let generator = UISelectionFeedbackGenerator()
+                    generator.selectionChanged()
+                    #endif
+                }
+                // UI test logging removed
+            }
+        )
     }
 
     private var shareText: String {
@@ -441,7 +513,19 @@ struct ContentView: View {
         followingAllSet = []
         followersEntryName = nil
         followingEntryName = nil
-        isAnalyzing = true
+        withAnimation(.easeInOut(duration: 0.18)) {
+            isAnalyzing = true
+            uiState = .working
+        }
+        analysisStartTime = Date()
+        // Accessibility: announce work start without changing focus (skip during UI tests)
+        if shouldPolish {
+            #if canImport(UIKit)
+            let analyzingText = NSLocalizedString("home.analyzing", comment: "")
+            let startAnnouncement = (analyzingText == "home.analyzing") ? "Analyzing…" : analyzingText
+            UIAccessibility.post(notification: .announcement, argument: startAnnouncement)
+            #endif
+        }
 
         Task {
             do {
@@ -467,20 +551,49 @@ struct ContentView: View {
                 let sorted365 = notFollowingBack365Set.sorted { $0.lowercased() < $1.lowercased() }
                 let sorted180 = notFollowingBack180Set.sorted { $0.lowercased() < $1.lowercased() }
 
+                // Enforce a minimum visible working duration (skip during UI tests)
+                let minDuration: TimeInterval = shouldPolish ? 0.35 : 0.0
+                let elapsed = Date().timeIntervalSince(analysisStartTime ?? Date())
+                if elapsed < minDuration {
+                    try? await Task.sleep(nanoseconds: UInt64((minDuration - elapsed) * 1_000_000_000))
+                }
                 await MainActor.run {
-                    followersEntryName = parsed.followersEntry
-                    followingEntryName = parsed.followingEntry
-                    followersSet = parsed.followers
-                    followingAllSet = parsed.following
-                    followingActive365Set = active365
-                    followingActive180Set = active180
-                    notFollowingBackAll = sortedAll
-                    notFollowingBackActive365 = sorted365
-                    notFollowingBackActive180 = sorted180
-                    isAnalyzing = false
-                    lastAnalyzedAt = Date()
+                    withAnimation(.easeInOut(duration: 0.18)) {
+                        followersEntryName = parsed.followersEntry
+                        followingEntryName = parsed.followingEntry
+                        followersSet = parsed.followers
+                        followingAllSet = parsed.following
+                        followingActive365Set = active365
+                        followingActive180Set = active180
+                        notFollowingBackAll = sortedAll
+                        notFollowingBackActive365 = sorted365
+                        notFollowingBackActive180 = sorted180
+                        isAnalyzing = false
+                        lastAnalyzedAt = Date()
+                        uiState = .success
+                    }
+                    // UI test logging removed
+                    // Success completion: re-enable + fade back to full opacity
+                    withAnimation(.easeOut(duration: 0.2)) { contentDimmed = false }
+                    didSucceedTick &+= 1
+                    // Accessibility: announce completion (with safe fallback) — skip during UI tests
+                    if shouldPolish {
+                        #if canImport(UIKit)
+                        let completeText = NSLocalizedString("home.status.analysis_complete", comment: "")
+                        let completionAnnouncement = (completeText == "home.status.analysis_complete") ? "Analysis complete." : completeText
+                        UIAccessibility.post(notification: .announcement, argument: completionAnnouncement)
+                        #endif
+                    }
+                    // Reset UI state back to idle after completion
+                    uiState = .idle
                 }
             } catch {
+                // Enforce a minimum visible working duration (skip during UI tests) even on error
+                let minDuration: TimeInterval = shouldPolish ? 0.35 : 0.0
+                let elapsed = Date().timeIntervalSince(analysisStartTime ?? Date())
+                if elapsed < minDuration {
+                    try? await Task.sleep(nanoseconds: UInt64((minDuration - elapsed) * 1_000_000_000))
+                }
                 await MainActor.run {
                     if let exportError = error as? InstagramJSONParser.InstagramExportError {
                         // Map typed parser error to localized UI text
@@ -488,7 +601,7 @@ struct ContentView: View {
 
                         // If followers file is missing → automatically open the help screen
                         if case .missingFollowersFile = exportError {
-                            if !isUITesting {
+                            if shouldPolish {
                                 showHelp = true
                             }
                         }
@@ -497,16 +610,47 @@ struct ContentView: View {
                         errorMessage = error.localizedDescription
                     }
 
-                    isAnalyzing = false
-                    lastAnalyzedAt = Date()
+                    withAnimation(.easeInOut(duration: 0.18)) {
+                        isAnalyzing = false
+                        lastAnalyzedAt = Date()
+                        uiState = .error
+                    }
+                    // Error outcome: keep controls enabled, layout fixed, and dimming removed
+                    contentDimmed = false
+                    didErrorTick &+= 1
+                    // Accessibility: announce completion (error handled by visible message) — skip during UI tests
+                    if shouldPolish {
+                        #if canImport(UIKit)
+                        let completeText = NSLocalizedString("home.status.analysis_complete", comment: "")
+                        let completionAnnouncement = (completeText == "home.status.analysis_complete") ? "Analysis complete." : completeText
+                        UIAccessibility.post(notification: .announcement, argument: completionAnnouncement)
+                        #endif
+                    }
+                    // Reset UI state back to idle
+                    uiState = .idle
                 }
             }
         }
     }
 
+// MARK: - OnChangeCompat (iOS17+ two-parameter with fallback)
+private struct OnChangeCompat<Value: Equatable>: ViewModifier {
+    let value: Value
+    let action: () -> Void
+
+    func body(content: Content) -> some View {
+        if #available(iOS 17.0, *) {
+            content.onChange(of: value) { _, _ in action() }
+        } else {
+            content.onChange(of: value) { _ in action() }
+        }
+    }
+}
+
     private var isUITesting: Bool {
         let env = ProcessInfo.processInfo.environment
-        return env["UI_TESTING"] == "1" || ProcessInfo.processInfo.arguments.contains("--ui-testing")
+        let args = ProcessInfo.processInfo.arguments
+        return env["UI_TESTING"] == "1" || args.contains("--ui-testing") || args.contains("--ui-test-zip")
     }
 
     private func localizedErrorMessage(for error: InstagramJSONParser.InstagramExportError) -> String {
