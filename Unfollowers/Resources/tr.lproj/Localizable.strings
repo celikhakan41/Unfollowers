@@ -1,6 +1,6 @@
 "app.title" = "Unfollowers";
 
-"home.safe_title" = "Güvenli analiz ✅";
+"home.safe_title" = "Güvenli analiz";
 "home.safe_subtitle" = "Şifre yok, giriş yok. Instagram’dan indirdiğin ZIP’i seç; analiz cihazında yapılır.";
 "home.pick_zip" = "Instagram ZIP’i seç";
 "home.analyzing" = "Analiz ediliyor…";
@@ -47,7 +47,7 @@
 "home.placeholder.no_zip_card" = "Başlamak için yukarıdaki düğmeyle Instagram ZIP’ini seç. Verilerin cihazdan çıkmaz.";
 "home.placeholder.after_zip_hint" = "ZIP seçildi. Analiz bitince sonuçlar görünecek. Hiçbir şey çıkmazsa Yardım’a göz at.";
 
-"home.status.analysis_complete" = "Analiz tamamlandı ✅";
+"home.status.analysis_complete" = "Analiz tamamlandı";
 "home.summary.not_following_back_label" = "Geri takip etmeyenler";
 "home.summary.followers_label" = "Takipçiler: %d";
 "home.summary.following_label" = "Takip edilen: %d";

@@ -1,6 +1,6 @@
 "app.title" = "Unfollowers";
 
-"home.safe_title" = "Safe analysis ✅";
+"home.safe_title" = "Safe analysis";
 "home.safe_subtitle" = "No password, no login. Pick your Instagram ZIP; analyze locally.";
 "home.pick_zip" = "Pick Instagram ZIP";
 "home.analyzing" = "Analyzing…";
@@ -47,7 +47,7 @@
 "home.placeholder.after_zip_hint" = "ZIP selected. Results appear after analysis. If nothing shows, open Help for steps.";
 "home.selected_zip" = "Selected: %@";
 
-"home.status.analysis_complete" = "Analysis complete ✅";
+"home.status.analysis_complete" = "Analysis complete";
 "home.summary.not_following_back_label" = "Not following you back";
 "home.summary.followers_label" = "Followers: %d";
 "home.summary.following_label" = "Following: %d";

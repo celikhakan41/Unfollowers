@@ -61,6 +61,12 @@ struct ContentView: View {
     private var controlsDisabled: Bool { uiState == .selected || uiState == .working }
     private var shouldPolish: Bool { !isUITesting }
 
+    // Collapsed header triggers after a successful analysis
+    private var isCollapsedHeader: Bool {
+        // Require: analysis completed successfully and a ZIP is selected (avoid initial state)
+        zipURL != nil && !isAnalyzing && errorMessage == nil && lastAnalyzedAt != nil
+    }
+
     // Marks that an analysis has completed (for count visibility)
     private var hasAnalyzed: Bool {
         followersEntryName != nil || followingEntryName != nil ||
@@ -86,44 +92,78 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 16) {
+            VStack(spacing: isCollapsedHeader ? 12 : 16) {
 
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("home.safe_title")
-                        .font(.title2).bold()
+                if isCollapsedHeader {
+                    // Compact header after successful analysis
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("home.safe_title")
+                            .font(.headline).bold()
 
-                    Text("home.safe_subtitle")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                        HStack(spacing: 6) {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(.green)
+                            Text("home.status.analysis_complete")
+                                .font(.footnote)
+                                .foregroundStyle(.secondary)
+                                .accessibilityIdentifier("analysisCompleteLabel")
+                        }
 
-                Button {
-                    showPicker = true
-                } label: {
-                    Text("home.pick_zip")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
-                .accessibilityIdentifier("pickZipButton")
-                .disabled(controlsDisabled)
-
-                if let name = zipURL?.lastPathComponent {
-                    HStack {
-                        Text(String(format: NSLocalizedString("home.selected_zip", comment: ""), name))
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .lineLimit(1)
-                            .truncationMode(.middle)
-                            .accessibilityIdentifier("selectedZipLabel")
-                        Spacer(minLength: 0)
+                        // Reuse the same picker action, compact styling
+                        Button { showPicker = true } label: {
+                            Text("home.pick_zip")
+                        }
+                        .buttonStyle(.bordered)
+                        .controlSize(.small)
+                        .accessibilityIdentifier("pickZipButton")
+                        .disabled(controlsDisabled)
                     }
-                }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                } else {
+                    // Original pre-analysis header
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack(spacing: 6) {
+                            Text("home.safe_title")
+                                .font(.title2).bold()
+                            if lastAnalyzedAt == nil {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundStyle(.green)
+                            }
+                        }
 
-                // Subtle placeholder before any selection
-                if zipURL == nil {
-                    MessageCard(textKey: LocalizedStringKey("home.placeholder.no_zip_card"))
-                        .padding(.top, 4)
+                        Text("home.safe_subtitle")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                    Button {
+                        showPicker = true
+                    } label: {
+                        Text("home.pick_zip")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .accessibilityIdentifier("pickZipButton")
+                    .disabled(controlsDisabled)
+
+                    if let name = zipURL?.lastPathComponent {
+                        HStack {
+                            Text(String(format: NSLocalizedString("home.selected_zip", comment: ""), name))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .lineLimit(1)
+                                .truncationMode(.middle)
+                                .accessibilityIdentifier("selectedZipLabel")
+                            Spacer(minLength: 0)
+                        }
+                    }
+
+                    // Subtle placeholder before any selection
+                    if zipURL == nil {
+                        MessageCard(textKey: LocalizedStringKey("home.placeholder.no_zip_card"))
+                            .padding(.top, 4)
+                    }
                 }
 
                 // Mode selector + info + helper
@@ -236,8 +276,8 @@ struct ContentView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
                 }
-                .padding(.top, 8)
-                .padding(.bottom, 4)
+                .padding(.top, isCollapsedHeader ? 2 : 8)
+                .padding(.bottom, isCollapsedHeader ? 0 : 4)
 
                 // Warning for Active estimation (show only for Active modes)
                 if mode != .all {
@@ -245,7 +285,7 @@ struct ContentView: View {
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.top, 6)
+                        .padding(.top, isCollapsedHeader ? 2 : 6)
                 }
 
                 if isAnalyzing {
@@ -274,13 +314,16 @@ struct ContentView: View {
 
                     SummaryCard(count: currentList.count,
                                 followersCount: followersSet.count,
-                                followingCount: followingCount)
+                                followingCount: followingCount,
+                                isCompact: isCollapsedHeader)
 
-                    Text("home.status.analysis_complete")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .accessibilityIdentifier("analysisCompleteLabel")
+                    if !isCollapsedHeader {
+                        Text("home.status.analysis_complete")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .accessibilityIdentifier("analysisCompleteLabel")
+                    }
 
                     if mode == .all {
                         Text("home.empty.no_unfollowers_positive")
@@ -307,15 +350,18 @@ struct ContentView: View {
 
                     SummaryCard(count: currentList.count,
                                 followersCount: followersSet.count,
-                                followingCount: followingCount)
+                                followingCount: followingCount,
+                                isCompact: isCollapsedHeader)
 
-                    Text("home.status.analysis_complete")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .accessibilityIdentifier("analysisCompleteLabel")
+                    if !isCollapsedHeader {
+                        Text("home.status.analysis_complete")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .accessibilityIdentifier("analysisCompleteLabel")
+                    }
 
-                    if let last = lastAnalyzedAt {
+                    if let last = lastAnalyzedAt, !isCollapsedHeader {
                         let formatted = formatLastAnalyzed(last)
                         Text(String(format: NSLocalizedString("home.status.last_analyzed", comment: ""), formatted))
                             .font(.footnote)
@@ -350,6 +396,7 @@ struct ContentView: View {
                         ResultRow(username: username, onTap: { openProfile(username: username) })
                     }
                     .accessibilityIdentifier("resultsList")
+                    .frame(maxHeight: isCollapsedHeader ? .infinity : nil)
                     .overlay(
                         Group {
                             if hasAnalyzed && !searchText.isEmpty && displayedList.isEmpty {
@@ -835,22 +882,23 @@ private struct SummaryCard: View {
     let count: Int
     let followersCount: Int
     let followingCount: Int
+    var isCompact: Bool = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: isCompact ? 4 : 6) {
             Text("\(count)")
-                .font(.system(size: 34, weight: .bold))
+                .font(.system(size: isCompact ? 28 : 34, weight: .bold))
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             Text("home.summary.not_following_back_label")
-                .font(.subheadline)
+                .font(isCompact ? .callout : .subheadline)
                 .foregroundStyle(.secondary)
 
             Text(String(format: NSLocalizedString("counts.followers_following", comment: ""), followersCount, followingCount))
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }
-        .padding(12)
+        .padding(isCompact ? 10 : 12)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             RoundedRectangle(cornerRadius: 14, style: .continuous).fill(.thinMaterial)
@@ -875,6 +923,8 @@ private struct ResultRow: View {
                     .foregroundStyle(.tertiary)
             }
             .contentShape(Rectangle())
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(Text(username))
         }
         .buttonStyle(.plain)
         .accessibilityIdentifier("resultRow_\(username)")
