@@ -101,12 +101,12 @@ struct ContentView: View {
                             .font(.headline).bold()
 
                         HStack(spacing: 6) {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundStyle(.green)
                             Text("home.status.analysis_complete")
                                 .font(.footnote)
                                 .foregroundStyle(.secondary)
                                 .accessibilityIdentifier("analysisCompleteLabel")
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(.green)
                         }
 
                         // Reuse the same picker action, compact styling
